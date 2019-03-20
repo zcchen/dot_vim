@@ -1,0 +1,8 @@
+passwd.vim
+
+.*
+!.gitignore
+
+undodir/
+plugin/
+autoload/

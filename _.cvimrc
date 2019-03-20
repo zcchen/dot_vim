@@ -1,0 +1,44 @@
+let vimcommand = 'gvim'
+
+set nohud
+set nodimhintcharacters
+set typelinkhints
+let mapleader = '\\'
+let zoomfactor = 0.05
+let scrollduration = 250
+let searchlimit = 25
+
+map g$ lastTab
+map g0 firstTab
+map xx closeTab
+map qq closeTab
+map Q closeTab
+map <C-d> scrollPageDown
+map <C-p> scrollPageDown
+map <C-u> scrollPageUp
+map <C-b> scrollPageUp
+imap <C-i> editWithVim
+
+
+fixChromiumWikiBug -> {{
+  [].slice.call(document.querySelectorAll('*[accesskey]')).forEach(function(e) {
+    e.removeAttribute('accesskey');
+  });
+}}
+
+site '*://*/*' {
+  call fixChromiumWikiBug
+}
+getIP -> {{
+  httpRequest({url: 'http://www.telize.com/geoip', json: true}, function(res) {
+    Status.setMessage(res.ip + ' - ' + res.isp);
+  });
+}}
+
+site '*://*.netflix.com/watch*' {
+  unmap <Space>
+  unmap f
+}
+
+let nextmatchpattern = "((?!first)(next|more|>|›|»|forward|下页|下一页|后页|后一页)+)"
+let previousmatchpattern = "((?!last)(prev(ious)?|newer|back|<|‹|«|less|上页|上一页|前页|前一页)+)"
