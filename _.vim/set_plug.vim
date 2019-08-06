@@ -93,9 +93,11 @@ let g:ycm_semantic_triggers =  {
             \ }
 
 " -------------- UltiSnips ---------------
-let g:UltiSnipsExpandTrigger="<Tab>"
-let g:UltiSnipsJumpForwardTrigger="<Tab>"
-let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
+if has_key(g:plugs, 'ultisnips')
+    let g:UltiSnipsExpandTrigger="<Tab>"
+    let g:UltiSnipsJumpForwardTrigger="<Tab>"
+    let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
+endif   " TODO: https://github.com/junegunn/dotfiles/blob/master/vimrc
 
 " ---------------- LeaderF -------------------
 let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
