@@ -72,6 +72,9 @@ Plug 'powerline/fonts',             {'do' : './install.sh'}
 " indent
 Plug 'Yggdroot/indentLine'
 
+" Preview
+Plug 'tyru/open-browser.vim'
+
 " diff 修改比较
 Plug 'mhinz/vim-signify'
 
@@ -98,9 +101,15 @@ Plug 'elzr/vim-json',                           { 'for': 'json' }
 Plug 'dyng/ctrlsf.vim'
 Plug 'kylef/apiblueprint.vim'
 Plug 'gi1242/vim-tex-syntax',                   { 'for': ['tex', 'latex'] }
+Plug 'vhdirk/vim-cmake'
 
 " Undo Trees
 Plug 'mbbill/undotree'
+
+" PlantUML
+"Plug 'scrooloose/vim-slumlord'
+Plug 'aklt/plantuml-syntax'
+Plug 'weirongxu/plantuml-previewer.vim'
 
 " Initialize plugin system
 call plug#end()
