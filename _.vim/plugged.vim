@@ -111,5 +111,7 @@ Plug 'mbbill/undotree'
 Plug 'aklt/plantuml-syntax'
 Plug 'weirongxu/plantuml-previewer.vim'
 
+Plug 'thaerkh/vim-workspace'
+
 " Initialize plugin system
 call plug#end()

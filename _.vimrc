@@ -1,7 +1,6 @@
 set nocompatible
 
 source ~/.vim/plugged.vim   " new vim-plugged manager
-source ~/.vim/my_plugins/maxUndo.vim         "max undoes
 
 set autochdir       " change working dir when open files.
 set modeline
@@ -32,7 +31,6 @@ set number                              " Display line number
 set foldenable          " 开始折叠
 set foldmethod=indent   " 设置语法折叠
 set foldcolumn=3        " 设置折叠区域的宽度
-"setlocal foldlevel=0    " 设置折叠层数为1
 
 " ========== VIM settings ===========
 set history =50
@@ -40,17 +38,6 @@ set textwidth=80
 " ---------- syntax -------
 if !exists("syntax_on")
     syntax enable
-endif
-" ------------- undo -------------
-let s:undo_dir = expand('~/.vim/undodir')
-if has("persistent_undo")   " Persistent undo
-    if !isdirectory(s:undo_dir)
-       silent! call mkdir(s:undo_dir, 'p')
-    endif
-    set undodir=s:undo_dir
-    set undofile
-    set undolevels=10000 "maximum number of changes that can be undone
-    set undoreload=10000 "maximum number lines to save for undo on a buffer reload
 endif
 " ------------ search ------------
 set ignorecase
@@ -73,6 +60,19 @@ set spelllang =en_us       "if need more dictionaries, add more.
 " ---------- developping --------
 set completeopt+=longest   "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
 let c_comment_strings=1     "highlighting strings inside C comments
+" ------------- undo -------------
+if has("persistent_undo")   " Persistent undo
+    let s:undo_dir = expand('~/.vim/undodir')
+    if !isdirectory(s:undo_dir)
+       silent! call mkdir(s:undo_dir, 'p')
+    endif
+    let undodir=s:undo_dir
+    set undofile
+    set undolevels=10000 "maximum number of changes that can be undone
+    set undoreload=10000 "maximum number lines to save for undo on a buffer reload
+else
+    set noundofile
+endif
 
 " ----------- autocmd -----------
 "autocmd! InsertLeave * if pumvisible() == 0|pclose|endif
