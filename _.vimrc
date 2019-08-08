@@ -2,7 +2,7 @@ set nocompatible
 
 source ~/.vim/plugged.vim   " new vim-plugged manager
 
-if v:version > 801
+if v:version > 800
     packadd max_undo
 endif
 
@@ -52,13 +52,13 @@ set autoindent      " 自动缩进
 " ---------- tab key ----------
 set smarttab        " TODO: add a new config file to handle it
 set list listchars=tab:>-,trail:∓    " 设置显示TAB以及行尾空格的标志
+set expandtab       " 将tab展开成空格,而不是制表符
 set shiftwidth=4    " 自动缩进插入的空格数
 set tabstop=4       " tab width
 set softtabstop=4   " 使用tab或bs自动插入或者删除相应的空格数
-set expandtab       " 将tab展开成空格,而不是制表符
 set showtabline=2   " always show tab line
 " ---------- spell ---------
-set spelllang =en_us       "if need more dictionaries, add more.
+set spelllang =en_us        "if need more dictionaries, add more.
 " ---------- developping --------
 "set completeopt+=longest   "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
 "let c_comment_strings=1     "highlighting strings inside C comments
@@ -71,7 +71,12 @@ autocmd! BufReadPost *
             \   if line("'\"") > 1 && line("'\"") <= line("$")
             \|      exe "normal! g`\""
             \|  endif   " 打开文件后自动定位上次光标的位置
-autocmd BufNewFile,BufEnter *.tmp set textwidth=0
 
-source ~/.vim/set_plug.vim
+source ~/.vim/devel_plugs.vim
+source ~/.vim/syntax_plugs.vim
+source ~/.vim/files_plugs.vim
+source ~/.vim/ui_plugs.vim
+source ~/.vim/typing_plugs.vim
+source ~/.vim/editor_plugs.vim
+
 source ~/.vim/keybinds.vim

@@ -40,55 +40,23 @@ call plug#begin('~/.vim/plugged')
 "
 " ------------------ example above ----------------------
 
-" completing helper
-"Plug 'davidhalter/jedi-vim',    {'for': 'python'}
-Plug 'Valloric/YouCompleteMe',  {'do' : './install.py --clang-completer --system-libclang'}
-
-" find str
-Plug 'mileszs/ack.vim'
-
-" date
-Plug 'tpope/vim-speeddating'
-
-" IM
-Plug 'lilydjwg/fcitx.vim'
-
-" file pluggin
-Plug 'Yggdroot/LeaderF'
-Plug 'scrooloose/nerdtree'      | Plug 'Xuyuanp/nerdtree-git-plugin'
-
-" commenter
+" ====================== devel pack =====================
+" general
 Plug 'scrooloose/nerdcommenter'
-
-" ctags
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'taxilian/a.vim'
-
-" UI
-Plug 'mhinz/vim-startify'
-Plug 'vim-scripts/Colour-Sampler-Pack'
-Plug 'vim-airline/vim-airline'  | Plug 'vim-airline/vim-airline-themes'
-Plug 'powerline/fonts',             {'do' : './install.sh'}
-" indent
-Plug 'Yggdroot/indentLine'
-
-" Preview
-Plug 'tyru/open-browser.vim'
-
-" diff 修改比较
-Plug 'mhinz/vim-signify'
-
+" helper
+Plug 'Valloric/YouCompleteMe',  {'do' : './install.py --clang-completer --system-libclang'}
+Plug 'w0rp/ale'
+Plug 'Shougo/echodoc.vim'
+Plug 'luochen1990/rainbow'
+"Plug 'davidhalter/jedi-vim',    {'for': 'python'}
 " snippets
 Plug 'sirver/ultisnips'
 "Plug 'MarcWeber/vim-addon-mw-utils' | Plug 'garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
 
-" Syntax Helper
-Plug 'w0rp/ale'
-Plug 'Shougo/echodoc.vim'
-Plug 'luochen1990/rainbow'
-
-" Syntaxes
+" ====================== syntax pack ====================
 "Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'othree/html5.vim',                        { 'for': 'html' }
 Plug 'vim-scripts/nginx.vim',                   { 'for': 'nginx' }
@@ -102,16 +70,33 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'kylef/apiblueprint.vim'
 Plug 'gi1242/vim-tex-syntax',                   { 'for': ['tex', 'latex'] }
 Plug 'vhdirk/vim-cmake'
-
-" Undo Trees
-Plug 'mbbill/undotree'
-
-" PlantUML
-"Plug 'scrooloose/vim-slumlord'
 Plug 'aklt/plantuml-syntax'
-Plug 'weirongxu/plantuml-previewer.vim'
 
+" ====================== files pack =====================
+Plug 'mileszs/ack.vim'
+Plug 'Yggdroot/LeaderF'
+Plug 'scrooloose/nerdtree'      | Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" ====================== UI pack ========================
+Plug 'mhinz/vim-startify'
+Plug 'vim-scripts/Colour-Sampler-Pack'
+Plug 'vim-airline/vim-airline'  | Plug 'vim-airline/vim-airline-themes'
+Plug 'powerline/fonts',             {'do' : './install.sh'}
+
+" ====================== typing pack ====================
+Plug 'tpope/vim-speeddating'
+if has('unix')          " IM handling
+    Plug 'lilydjwg/fcitx.vim'
+endif
+
+" ====================== editor pack ====================
+Plug 'Yggdroot/indentLine'      " indent
 Plug 'thaerkh/vim-workspace'
+Plug 'mhinz/vim-signify'        " diff 修改比较
+
+" ====================== xdg pack =======================
+Plug 'tyru/open-browser.vim'
+Plug 'weirongxu/plantuml-previewer.vim'
 
 " Initialize plugin system
 call plug#end()
