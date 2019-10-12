@@ -3,5 +3,6 @@ passwd.vim
 .*
 !.gitignore
 
+plugged/
 undodir/
 autoload/

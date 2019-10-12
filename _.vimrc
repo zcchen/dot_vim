@@ -1,8 +1,16 @@
 set nocompatible
 
-source ~/.vim/plugged.vim   " new vim-plugged manager
+if !exists('$VIMHOME')
+    if has('win32') || has ('win64')
+        let $VIMHOME = expand($VIM . "/vimfiles")
+    else
+        let $VIMHOME = expand($HOME . "/.vim")
+    endif
+endif
 
-if v:version > 801
+source $VIMHOME/plugged.vim   " new vim-plugged manager
+
+if v:version > 800
     packadd max_undo
 endif
 
@@ -40,7 +48,7 @@ set background=dark
 
 " ========== VIM settings ===========
 set history =50
-set textwidth=80
+set textwidth=100
 " ------------ search ------------
 set ignorecase
 set smartcase       " Ignore case when searching
@@ -52,13 +60,13 @@ set autoindent      " 自动缩进
 " ---------- tab key ----------
 set smarttab        " TODO: add a new config file to handle it
 set list listchars=tab:>-,trail:∓    " 设置显示TAB以及行尾空格的标志
+set expandtab       " 将tab展开成空格,而不是制表符
 set shiftwidth=4    " 自动缩进插入的空格数
 set tabstop=4       " tab width
 set softtabstop=4   " 使用tab或bs自动插入或者删除相应的空格数
-set expandtab       " 将tab展开成空格,而不是制表符
 set showtabline=2   " always show tab line
 " ---------- spell ---------
-set spelllang =en_us       "if need more dictionaries, add more.
+set spelllang =en_us        "if need more dictionaries, add more.
 " ---------- developping --------
 "set completeopt+=longest   "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
 "let c_comment_strings=1     "highlighting strings inside C comments
@@ -71,7 +79,12 @@ autocmd! BufReadPost *
             \   if line("'\"") > 1 && line("'\"") <= line("$")
             \|      exe "normal! g`\""
             \|  endif   " 打开文件后自动定位上次光标的位置
-autocmd BufNewFile,BufEnter *.tmp set textwidth=0
 
-source ~/.vim/set_plug.vim
-source ~/.vim/keybinds.vim
+source $VIMHOME/devel_plugs.vim
+source $VIMHOME/syntax_plugs.vim
+source $VIMHOME/files_plugs.vim
+source $VIMHOME/ui_plugs.vim
+source $VIMHOME/typing_plugs.vim
+source $VIMHOME/editor_plugs.vim
+
+source $VIMHOME/keybinds.vim
