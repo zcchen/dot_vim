@@ -1,6 +1,14 @@
 set nocompatible
 
-source ~/.vim/plugged.vim   " new vim-plugged manager
+if !exists('$VIMHOME')
+    if has('win32') || has ('win64')
+        let $VIMHOME = expand($VIM . "/vimfiles")
+    else
+        let $VIMHOME = expand($HOME . "/.vim")
+    endif
+endif
+
+source $VIMHOME/plugged.vim   " new vim-plugged manager
 
 if v:version > 800
     packadd max_undo
@@ -40,7 +48,7 @@ set background=dark
 
 " ========== VIM settings ===========
 set history =50
-set textwidth=80
+set textwidth=100
 " ------------ search ------------
 set ignorecase
 set smartcase       " Ignore case when searching
@@ -72,11 +80,10 @@ autocmd! BufReadPost *
             \|      exe "normal! g`\""
             \|  endif   " 打开文件后自动定位上次光标的位置
 
-source ~/.vim/devel_plugs.vim
-source ~/.vim/syntax_plugs.vim
-source ~/.vim/files_plugs.vim
-source ~/.vim/ui_plugs.vim
-source ~/.vim/typing_plugs.vim
-source ~/.vim/editor_plugs.vim
-
-source ~/.vim/keybinds.vim
+source $VIMHOME/devel_plugs.vim
+source $VIMHOME/syntax_plugs.vim
+source $VIMHOME/files_plugs.vim
+source $VIMHOME/ui_plugs.vim
+source $VIMHOME/typing_plugs.vim
+source $VIMHOME/editor_plugs.vim
+source $VIMHOME/keybinds.vim

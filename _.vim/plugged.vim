@@ -7,7 +7,7 @@
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
-call plug#begin('~/.vim/plugged')
+call plug#begin(expand($VIMHOME . '/plugged'))
 
 " ------------------ example below ----------------------
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
@@ -55,6 +55,7 @@ Plug 'luochen1990/rainbow'
 Plug 'sirver/ultisnips'
 "Plug 'MarcWeber/vim-addon-mw-utils' | Plug 'garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
+Plug 'Chiel92/vim-autoformat'
 
 " ====================== syntax pack ====================
 "Plug 'Glench/Vim-Jinja2-Syntax'

@@ -17,7 +17,7 @@ if has("persistent_undo")   " Persistent undo
        silent! call mkdir(s:undo_dir, 'p')
     endif
 
-    let undodir=s:undo_dir
+    let &undodir = s:undo_dir
     set undofile
     set undolevels=10000
         "maximum number of changes that can be undone
