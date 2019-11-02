@@ -8,7 +8,7 @@ if has_key(g:plugs, 'vim-gutentags')
     " 所生成的数据文件的名称
     let g:gutentags_ctags_tagfile = '.tags'
     " 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录
-    let s:vim_tags = expand('~/.cache/tags')
+    let s:vim_tags = expand($HOME . '/.cache/tags')
     let g:gutentags_cache_dir = s:vim_tags
     " 配置 ctags 的参数
     let g:gutentags_modules = ['ctags']
@@ -25,7 +25,7 @@ if has_key(g:plugs, 'vim-gutentags')
 endif
 
 if has_key(g:plugs, 'ale')
-    let &runtimepath.=',~/.vim/plugged/ale'
+    let &runtimepath.=expand(',' . $VIMHOME . '/plugged/ale')
     "let g:ale_sign_column_always = 1    " 一般需要实时检查，默认关闭
     let g:ale_lint_on_save = 1          " save file auto check
     let g:ale_lint_on_text_changed = 'normal'   " for ale_lint_on_save = 1
@@ -40,7 +40,7 @@ if has_key(g:plugs, 'ale')
     let g:ale_lint_on_insert_leave = 1
     let g:airline#extensions#ale#enabled = 1
 
-    let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
+    let g:ale_c_gcc_options = '-Wall -O2 -std=gnu99'
     let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
     let g:ale_c_cppcheck_options = ''
     let g:ale_cpp_cppcheck_options = ''
@@ -62,12 +62,14 @@ if has_key(g:plugs, 'YouCompleteMe')
     let g:ycm_auto_trigger = 1
     let g:ycm_key_invoke_completion = '<Tab>'
     " 最小自动触发补全的字符大小设置为 3
-    let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+    let g:ycm_global_ycm_extra_conf = expand($VIMHOME . '/configs/ycm_extra_conf.py')
+    let g:ycm_keep_logfiles = 0
+    "let g:ycm_log_level = 'debug'
+    let g:ycm_server_log_level = 'info'
     let g:ycm_confirm_extra_conf = 0
     let g:ycm_min_num_of_chars_for_completion = 3
     let g:ycm_add_preview_to_completeopt = 0
     let g:ycm_show_diagnostics_ui = 0
-    let g:ycm_server_log_level = 'info'
     let g:ycm_collect_identifiers_from_comments_and_strings = 1
     let g:ycm_complete_in_strings=1
     set completeopt=menu,menuone

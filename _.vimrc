@@ -80,10 +80,10 @@ autocmd! BufReadPost *
             \|      exe "normal! g`\""
             \|  endif   " 打开文件后自动定位上次光标的位置
 
-source $VIMHOME/devel_plugs.vim
-source $VIMHOME/syntax_plugs.vim
-source $VIMHOME/files_plugs.vim
-source $VIMHOME/ui_plugs.vim
-source $VIMHOME/typing_plugs.vim
-source $VIMHOME/editor_plugs.vim
+source $VIMHOME/plug_conf/devel_plugs.vim
+source $VIMHOME/plug_conf/syntax_plugs.vim
+source $VIMHOME/plug_conf/files_plugs.vim
+source $VIMHOME/plug_conf/ui_plugs.vim
+source $VIMHOME/plug_conf/typing_plugs.vim
+source $VIMHOME/plug_conf/editor_plugs.vim
 source $VIMHOME/keybinds.vim
