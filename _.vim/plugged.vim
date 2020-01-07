@@ -83,6 +83,7 @@ Plug 'mhinz/vim-startify'
 Plug 'vim-scripts/Colour-Sampler-Pack'
 Plug 'vim-airline/vim-airline'  | Plug 'vim-airline/vim-airline-themes'
 Plug 'powerline/fonts',             {'do' : './install.sh'}
+"Plug 'KevinGoodsell/vim-csexact'
 
 " ====================== typing pack ====================
 Plug 'tpope/vim-speeddating'
