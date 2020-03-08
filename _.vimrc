@@ -69,6 +69,8 @@ set shiftwidth=4    " 自动缩进插入的空格数
 set tabstop=4       " tab width
 set softtabstop=4   " 使用tab或bs自动插入或者删除相应的空格数
 set showtabline=2   " always show tab line
+" ---------- backspace key ----------
+set backspace=indent,start,eol
 " ---------- spell ---------
 set spelllang =en_us        "if need more dictionaries, add more.
 " ---------- developping --------

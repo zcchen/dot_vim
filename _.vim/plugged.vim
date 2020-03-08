@@ -90,6 +90,7 @@ Plug 'tpope/vim-speeddating'
 if has('unix')          " IM handling
     Plug 'lilydjwg/fcitx.vim'
 endif
+"Plug 'tpope/vim-sleuth'
 
 " ====================== editor pack ====================
 Plug 'Yggdroot/indentLine'      " indent
