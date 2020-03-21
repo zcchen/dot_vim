@@ -2,3 +2,7 @@
 	path = _.vim/pack/plug.vim/start/plug.vim/autoload
 	url = https://github.com/junegunn/vim-plug
 	branch = master
+[submodule "autoload"]
+	path = autoload
+	url = https://github.com/junegunn/vim-plug
+	branch = master

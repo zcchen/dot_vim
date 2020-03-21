@@ -5,4 +5,4 @@ passwd.vim
 
 plugged/
 undodir/
-autoload/
+#autoload/
