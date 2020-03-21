@@ -43,10 +43,16 @@ call plug#begin(expand($VIMHOME . '/plugged'))
 " ====================== devel pack =====================
 " general
 Plug 'scrooloose/nerdcommenter'
-Plug 'ludovicchabant/vim-gutentags'
+if has('unix')
+    Plug 'ludovicchabant/vim-gutentags'
+endif
 Plug 'taxilian/a.vim'
 " helper
-Plug 'Valloric/YouCompleteMe',  {'do' : './install.py --clang-completer --system-libclang'}
+"if has('unix')
+if has('unix')
+    Plug 'Valloric/YouCompleteMe',  {'do' : './install.py --clang-completer --system-libclang'}
+endif
+"endif
 Plug 'w0rp/ale'
 Plug 'Shougo/echodoc.vim'
 Plug 'luochen1990/rainbow'
@@ -75,7 +81,9 @@ Plug 'aklt/plantuml-syntax'
 
 " ====================== files pack =====================
 Plug 'mileszs/ack.vim'
-Plug 'Yggdroot/LeaderF'
+if has('unix')
+    Plug 'Yggdroot/LeaderF'
+endif
 Plug 'scrooloose/nerdtree'      | Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " ====================== UI pack ========================

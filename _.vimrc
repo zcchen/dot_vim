@@ -2,10 +2,14 @@ set nocompatible
 
 if !exists('$VIMHOME')
     if has('win32') || has ('win64')
-        let $VIMHOME = expand($VIM . "/vimfiles")
+        let $VIMHOME = expand($HOME . "/vimfiles")
     else
         let $VIMHOME = expand($HOME . "/.vim")
     endif
+endif
+
+if has('win32') || has ('win64')
+    set pythonthreedll=python38.dll
 endif
 
 source $VIMHOME/plugged.vim   " new vim-plugged manager
