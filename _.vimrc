@@ -24,7 +24,11 @@ set modeline        " active the modeline
 ""=========== encoding =============
 set fileencoding=utf-8 encoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936,big5,gb18030,euc-jp,euc-kr,latin1
-set fileformats=unix,dos,mac
+if has('win32') || has ('win64')
+    set fileformats=dos,unix
+else
+    set fileformats=unix,dos
+endif
 set formatoptions+=mMB
     " No space when joining two lines of Chinese together
 
@@ -69,10 +73,12 @@ set shiftwidth=4    " 自动缩进插入的空格数
 set tabstop=4       " tab width
 set softtabstop=4   " 使用tab或bs自动插入或者删除相应的空格数
 set showtabline=2   " always show tab line
+" ---------- backspace key ----------
+set backspace=indent,start,eol
 " ---------- spell ---------
 set spelllang =en_us        "if need more dictionaries, add more.
 " ---------- developping --------
-"set completeopt+=longest   "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+"set completeopt+=longest    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
 "let c_comment_strings=1     "highlighting strings inside C comments
 
 " ----------- autocmd -----------
