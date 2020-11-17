@@ -82,7 +82,7 @@ def FlagsForFile(filename):
     '-x',
     '-I',
     'c++',
-    '-isystem /usr/lib/llvm-8/lib/libclang.so.1',
-    # '-std=c++14',
+    # '-isystem /usr/lib/llvm-7/lib/libclang.so.1',
+    '-std=c++14',
   ]
   return {'flags': flags}

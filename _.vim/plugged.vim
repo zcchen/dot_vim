@@ -47,12 +47,15 @@ if has('unix')
     Plug 'ludovicchabant/vim-gutentags'
 endif
 Plug 'taxilian/a.vim'
-" helper
-"if has('unix')
 if has('unix')
-    Plug 'Valloric/YouCompleteMe',  {'do' : './install.py --clang-completer --system-libclang'}
+    if isdirectory('/usr/share/vim-youcompleteme')
+        set runtimepath+=/usr/share/vim-youcompleteme
+        let g:plugs.YouCompleteMe = {'uri': 'file:///usr/share/vim-youcompleteme', 'dir': '/usr/share/vim-youcompleteme', 'frozen': 0, 'branch': ''}
+    else
+        Plug 'Valloric/YouCompleteMe', { 'commit': 'd98f896', 'do': './install.py --clang-completer --system-libclang'}
+    endif
 endif
-"endif
+"NOTE: Use the YouCompleteMe plugin from distr provider
 Plug 'w0rp/ale'
 Plug 'Shougo/echodoc.vim'
 Plug 'luochen1990/rainbow'
@@ -62,6 +65,7 @@ Plug 'sirver/ultisnips'
 "Plug 'MarcWeber/vim-addon-mw-utils' | Plug 'garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
 Plug 'Chiel92/vim-autoformat'
+Plug 'Raimondi/YAIFA',          {'for': ['c', 'cpp', 'python']}
 
 " ====================== syntax pack ====================
 "Plug 'Glench/Vim-Jinja2-Syntax'
@@ -78,6 +82,7 @@ Plug 'kylef/apiblueprint.vim'
 Plug 'gi1242/vim-tex-syntax',                   { 'for': ['tex', 'latex'] }
 Plug 'vhdirk/vim-cmake'
 Plug 'aklt/plantuml-syntax'
+Plug 'rhysd/vim-clang-format',                  { 'for': ['c', 'cpp'] }
 
 " ====================== files pack =====================
 Plug 'mileszs/ack.vim'
