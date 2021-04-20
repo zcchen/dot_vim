@@ -83,6 +83,7 @@ Plug 'gi1242/vim-tex-syntax',                   { 'for': ['tex', 'latex'] }
 Plug 'vhdirk/vim-cmake'
 Plug 'aklt/plantuml-syntax'
 Plug 'rhysd/vim-clang-format',                  { 'for': ['c', 'cpp'] }
+Plug 'Glench/Vim-Jinja2-Syntax'
 
 " ====================== files pack =====================
 Plug 'mileszs/ack.vim'

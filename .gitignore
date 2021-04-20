@@ -1,4 +1,4 @@
 # ignore the editor swap file
 *.sw*
 *~
-
+autoload
