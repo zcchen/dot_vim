@@ -23,7 +23,7 @@ set modeline        " active the modeline
 
 ""=========== encoding =============
 set fileencoding=utf-8 encoding=utf-8
-set fileencodings=ucs-bom,utf-8,cp936,big5,gb18030,euc-jp,euc-kr,latin1
+set fileencodings=utf-8,ucs-bom,cp936,big5,gb18030,euc-jp,euc-kr,latin1
 if has('win32') || has ('win64')
     set fileformats=dos,unix
 else
@@ -46,6 +46,7 @@ set ambiwidth=double    " set the char as double for CJK
 if !exists("syntax_on")
     syntax enable
 endif
+set conceallevel=0  " Text is shown normally
 " ------------ fold method ------------
 set foldenable          " 开始折叠
 set foldmethod=indent   " 设置语法折叠

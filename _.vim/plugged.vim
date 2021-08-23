@@ -107,7 +107,7 @@ endif
 "Plug 'tpope/vim-sleuth'
 
 " ====================== editor pack ====================
-Plug 'Yggdroot/indentLine'      " indent
+"Plug 'Yggdroot/indentLine'      " indent
 Plug 'thaerkh/vim-workspace'
 Plug 'mhinz/vim-signify'        " diff 修改比较
 
