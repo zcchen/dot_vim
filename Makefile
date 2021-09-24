@@ -25,7 +25,7 @@ endif
 PLUGIN_MNG_URL  = https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 PLUGIN_MNG_NAME = plug.vim
 
-all: link
+all: link update
 
 link: vim-link
 
@@ -45,5 +45,5 @@ vim-remove:
 	$(REMOVE_CMD) $(VIMDIR_OBJ)
 
 update:
-	;
+	vim +PlugInstall +qall
 
