@@ -102,6 +102,7 @@ Plug 'powerline/fonts',             {'do' : './install.sh'}
 " ====================== typing pack ====================
 Plug 'tpope/vim-speeddating'
 if has('unix')          " IM handling
+    "Plug 'kevinhwang91/vim-ibus-sw'
     Plug 'lilydjwg/fcitx.vim'
 endif
 "Plug 'tpope/vim-sleuth'
