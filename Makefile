@@ -45,5 +45,5 @@ vim-remove:
 	$(REMOVE_CMD) $(VIMDIR_OBJ)
 
 update:
-	vim +PlugInstall +qall
+	vim +PlugInstall! +qall
 
