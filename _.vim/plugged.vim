@@ -52,7 +52,8 @@ if has('unix')
         set runtimepath+=/usr/share/vim-youcompleteme
         let g:plugs.YouCompleteMe = {'uri': 'file:///usr/share/vim-youcompleteme', 'dir': '/usr/share/vim-youcompleteme', 'frozen': 0, 'branch': ''}
     else
-        Plug 'Valloric/YouCompleteMe', { 'commit': 'd98f896', 'do': './install.py --clang-completer --system-libclang'}
+        "Plug 'Valloric/YouCompleteMe', { 'commit': 'd98f896', 'do': './install.py --clang-completer --system-libclang'}
+        Plug 'Valloric/YouCompleteMe'
     endif
 endif
 "NOTE: Use the YouCompleteMe plugin from distr provider
@@ -77,6 +78,8 @@ Plug 'octol/vim-cpp-enhanced-highlight',        { 'for': ['c', 'cpp'] }
 Plug 'justinmk/vim-syntax-extra',               { 'for': ['c', 'bison', 'flex', 'cpp'] }
 Plug 'vim-python/python-syntax',                { 'for': ['python'] }
 Plug 'elzr/vim-json',                           { 'for': 'json' }
+Plug 'gryf/pep8-vim',                           { 'for': ['python'] }
+Plug 'tell-k/vim-autopep8',                     { 'for': ['python'] }
 Plug 'dyng/ctrlsf.vim'
 Plug 'kylef/apiblueprint.vim'
 Plug 'gi1242/vim-tex-syntax',                   { 'for': ['tex', 'latex'] }

@@ -46,4 +46,4 @@ vim-remove:
 
 update:
 	vim +PlugInstall! +qall
-
+	vim +PlugUpdate! +qall
