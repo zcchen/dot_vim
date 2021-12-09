@@ -57,7 +57,7 @@ if has('unix')
     endif
 endif
 "NOTE: Use the YouCompleteMe plugin from distr provider
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'Shougo/echodoc.vim'
 Plug 'luochen1990/rainbow'
 "Plug 'davidhalter/jedi-vim',    {'for': 'python'}

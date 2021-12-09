@@ -28,6 +28,7 @@
 #
 # For more information, please refer to <http://unlicense.org/>
 
+import glob
 import os.path as p
 import subprocess
 
@@ -79,10 +80,11 @@ def FlagsForFile(filename):
     '-Wno-long-long',
     '-Wno-variadic-macros',
     '-fexceptions',
-    '-x',
+    '-x', 'c++',
     '-I',
-    'c++',
-    # '-isystem /usr/lib/llvm-7/lib/libclang.so.1',
     '-std=c++14',
   ]
+  # libclang_so_paths = glob.glob('/usr/lib/llvm-*/lib/libclang.so*')
+  # if libclang_so_paths:
+      # flags += [f'-isystem{libclang_so_paths[0]}']
   return {'flags': flags}

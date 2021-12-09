@@ -29,11 +29,12 @@ if has_key(g:plugs, 'vim-gutentags')
 endif
 
 if has_key(g:plugs, 'ale')
-    let &runtimepath.=expand(',' . $VIMHOME . '/plugged/ale')
-    "let g:ale_sign_column_always = 1    " 一般需要实时检查，默认关闭
+    let g:ale_sign_column_always = 1    " 一般需要实时检查，默认关闭
+    let g:ale_set_highlights = 0
+
     let g:ale_lint_on_save = 1          " save file auto check
+    let g:ale_lint_on_enter = 1         " open file and auto check
     let g:ale_lint_on_text_changed = 'normal'   " for ale_lint_on_save = 1
-    let g:ale_lint_on_enter = 0                 " for ale_lint_on_save = 1
     "let g:ale_echo_msg_warning_str = 'Warning'
     let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
     let g:ale_linters_explicit = 1
@@ -44,12 +45,28 @@ if has_key(g:plugs, 'ale')
     let g:ale_lint_on_insert_leave = 1
     let g:airline#extensions#ale#enabled = 1
 
-    let g:ale_c_gcc_options = '-Wall -O2 -std=gnu99'
-    let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
+    let b:ale_fixers = ['prettier', 'eslint']
+    let g:ale_fixers = {
+        \ '*': ['remove_trailing_lines','trim_whitespace' ],
+        \ 'python': ['autopep8']
+        \ }
+
+    " linters
+    let g:ale_linters = {
+        \ 'c': ['clang'],
+        \ 'cpp': ['clang'],
+        \ 'python': ['pylint'],
+        \ 'markdown': ['markdownlint'],
+        \ 'sh': ['shellcheck'],
+        \ }
+    let g:ale_c_gcc_options = '-Wall -O2 -std=c99' " -I. -I../include -I/usr/include'
+    let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14' " -I. -I../include -I/usr/include/'
     let g:ale_c_cppcheck_options = ''
     let g:ale_cpp_cppcheck_options = ''
 
-    let g:ale_sign_error = "\ue009\ue009"
+    let g:ale_sign_error = '✗'
+    let g:ale_sign_warning = '⚡'
+    let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
     highlight! clear SpellBad
     highlight! clear SpellCap
     highlight! clear SpellRare
@@ -66,7 +83,7 @@ if has_key(g:plugs, 'YouCompleteMe')
     let g:ycm_auto_trigger = 1
     let g:ycm_key_invoke_completion = '<Tab>'
     " 最小自动触发补全的字符大小设置为 3
-    let g:ycm_global_ycm_extra_conf = expand($VIMHOME . '/configs/ycm_extra_conf.py')
+    "let g:ycm_global_ycm_extra_conf = expand($VIMHOME . '/configs/ycm_extra_conf.py')
     let g:ycm_keep_logfiles = 0
     "let g:ycm_log_level = 'debug'
     let g:ycm_server_log_level = 'info'
