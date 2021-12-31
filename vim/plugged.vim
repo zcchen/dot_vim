@@ -83,7 +83,7 @@ Plug 'tell-k/vim-autopep8',                     { 'for': ['python'] }
 Plug 'dyng/ctrlsf.vim'
 Plug 'kylef/apiblueprint.vim'
 Plug 'gi1242/vim-tex-syntax',                   { 'for': ['tex', 'latex'] }
-Plug 'vhdirk/vim-cmake'
+Plug 'cdelledonne/vim-cmake'
 Plug 'aklt/plantuml-syntax'
 Plug 'rhysd/vim-clang-format',                  { 'for': ['c', 'cpp'] }
 Plug 'Glench/Vim-Jinja2-Syntax'
