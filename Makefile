@@ -2,9 +2,9 @@ HOME_SRCS   = vimrc vim
 CONFIG_SRCS = nvim
 DEB_DEPENDS = universal-ctags vim-youcompleteme neovim
 
-HOME_DIR    = $${HOME}
-CONFIG_DIR  = $${HOME}/.config
-PLUGIN_OBJ  = $${HOME}/.vim/autoload/plug.vim
+HOME_DIR    = $(HOME)
+CONFIG_DIR  = $(HOME)/.config
+PLUGIN_OBJ  = $(HOME)/.vim/autoload/plug.vim
 
 HOME_OBJS   = $(foreach s,$(HOME_SRCS),$(HOME_DIR)/.$(s))
 CONFIG_OBJS = $(foreach s,$(CONFIG_SRCS),$(CONFIG_DIR)/$(s))
@@ -12,7 +12,7 @@ CONFIG_OBJS = $(foreach s,$(CONFIG_SRCS),$(CONFIG_DIR)/$(s))
 REMOVE_CMD  = rm -if
 LINK_CMD    = ln -snf
 
-PLUGIN_MNG_URL  = https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+PLUGIN_MNG_URL  = https://raw.githubusercontent.com/junegunn/vim-plug/0.11.0/plug.vim
 PLUGIN_MNG_NAME = plug.vim
 
 .PHONY: all clean
@@ -37,7 +37,7 @@ install: $(HOME_OBJS) $(CONFIG_OBJS) $(PLUGIN_OBJ)
 depends:
 	sudo apt install $(DEB_DEPENDS)
 
-update:
+update: install
 	vim +PlugUpdate! +qall
 
 
@@ -49,5 +49,5 @@ $(CONFIG_DIR)/%: %
 
 $(PLUGIN_OBJ):
 	mkdir -p $(dir $@)
-	wget -c -O $@ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+	wget "$(PLUGIN_MNG_URL)" -O $@
 
