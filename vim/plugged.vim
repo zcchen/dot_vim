@@ -66,7 +66,8 @@ Plug 'sirver/ultisnips'
 "Plug 'MarcWeber/vim-addon-mw-utils' | Plug 'garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
 Plug 'Chiel92/vim-autoformat'
-Plug 'Raimondi/YAIFA',          {'for': ['c', 'cpp', 'python']}
+Plug 'Raimondi/YAIFA',              {'for': ['c', 'cpp', 'python']}
+Plug 'vim-scripts/DoxygenToolkit.vim'
 
 " ====================== syntax pack ====================
 "Plug 'Glench/Vim-Jinja2-Syntax'
