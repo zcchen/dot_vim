@@ -58,9 +58,10 @@ if has_key(g:plugs, 'ale')
         \ 'python': ['pylint'],
         \ 'markdown': ['markdownlint'],
         \ 'sh': ['shellcheck'],
+        \ 'lua': ['luacheck'],
         \ }
-    let g:ale_c_gcc_options = '-Wall -O2 -std=c99' " -I. -I../include -I/usr/include'
-    let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14' " -I. -I../include -I/usr/include/'
+    let g:ale_c_gcc_options = '-Wall -O2 -std=c99 -I. -I../include -I/usr/include -I/usr/include/*/'
+    let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++17 -I. -I../include -I/usr/include/'
     let g:ale_c_cppcheck_options = ''
     let g:ale_cpp_cppcheck_options = ''
 
