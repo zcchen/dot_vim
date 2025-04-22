@@ -29,9 +29,9 @@ nnoremap <leader>vimrc :vsp $MYVIMRC <CR>
 noremap <leader>count :wa\|!texcount % -ch
 
 " ---------- 日期/时间的快速插入 -------
-iab <expr> today_\ strftime("%Y-%m-%d")
-iab <expr> day_\ strftime("%A")
-iab <expr> time_\ strftime("%T (%Z)")
+iab <expr> today\ strftime("%Y-%m-%d")
+iab <expr> weekday\ strftime("%A")
+iab <expr> time\ strftime("%T (%z)")
 if has('python')
     py import uuid
     iab <expr> uuid_\ pyeval('str(uuid.uuid4())')
