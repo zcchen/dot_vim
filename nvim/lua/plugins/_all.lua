@@ -7,6 +7,9 @@ M.lazy = {
 local plugin_modnames = {
     "plugins.ui",
     "plugins.files",
+    "plugins.devel",
+    "plugins.keys",
+    "plugins.startup",
 }
 
 local loaded = {}
