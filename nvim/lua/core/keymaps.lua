@@ -22,7 +22,7 @@ map("n", "<leader>hlc", ':let @/ = ""<CR>', {silent=true})
 map("n", "<leader>nu",  ':set number! <CR>')
 
 -- -------- copy & paste ---------
-vim.opt.pastetoggle = "<leader>pp"
+--vim.opt.pastetoggle = "<leader>pp"
 -- copy
 map('v', '<leader>cp', '"+y')
 -- paste

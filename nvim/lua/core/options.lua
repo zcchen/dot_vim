@@ -32,6 +32,7 @@ vim.opt.foldenable = true       -- 开始折叠
 vim.opt.foldmethod = "indent"   -- 设置语法折叠
 vim.opt.foldcolumn = "3"        -- 设置折叠区域的宽度
 -- -------- colorscheme ------------
+vim.opt.termguicolors = true
 vim.opt.background = "dark"
 
 -- ========== VIM settings ===========

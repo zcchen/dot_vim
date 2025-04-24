@@ -3,13 +3,17 @@ require('core.autocmd')
 require('core.keymaps')
 require('core.abbreviate')
 
+
 g_path = {
     plugins = {
         rel = "plugins/"
     }
 }
-g_path.plugins.abs = vim.fn.stdpath("config") .. g_path.plugins.rel
+g_path.plugins.abs = vim.fn.stdpath("config") .. "/" .. g_path.plugins.rel
 
+g_plugins = {
+    lazy = require("plugins._all").lazy,
+}
 require("manager.lazy")
 
 
