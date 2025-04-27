@@ -11,10 +11,7 @@ g_path = {
 }
 g_path.plugins.abs = vim.fn.stdpath("config") .. "/" .. g_path.plugins.rel
 
-g_plugins = {
-    lazy = require("plugins._all").lazy,
-}
-require("manager.lazy")
+require("manager-lazy")
 
 
 vim.api.nvim_create_autocmd('BufWritePost', {   -- auto reload ~/.config/nvim/init.lua

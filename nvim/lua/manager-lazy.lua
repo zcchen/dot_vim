@@ -1,6 +1,8 @@
 local lazy_dirname = "lazy.nvim"
-local lazy_abspath = g_path.plugins.abs .. lazy_dirname
+local plugin_dirname = "lazy-plugins"
 
+-- install lazy.nvim if not existed.
+local lazy_abspath = g_path.plugins.abs .. lazy_dirname
 if not (vim.uv or vim.loop).fs_stat(lazy_abspath) then
     local path_pwd = vim.cmd("pwd")
     local path_config = vim.fn.stdpath("config")
@@ -21,18 +23,32 @@ if not (vim.uv or vim.loop).fs_stat(lazy_abspath) then
 end
 vim.opt.rtp:prepend(lazy_abspath)
 
+-- define the `spec` param table with the `import` key by finding the dirs automatically.
+local import_dirnames = { {import = plugin_dirname} }
+local plugin_dirname_abs = vim.fn.stdpath("config") .. "/lua/" .. plugin_dirname
+for _, dir_or_file in ipairs(vim.fn.readdir(plugin_dirname_abs)) do
+    if vim.fn.isdirectory(plugin_dirname_abs .. "/" .. dir_or_file) ~= 0 then
+        import_dirnames = vim.list_extend(import_dirnames,
+            { {import = plugin_dirname .. "/" .. dir_or_file} }
+        )
+    end
+end
+
 ---- Setup lazy.nvim
 require("lazy").setup({
     root = g_path.plugins.abs,
     defaults = {
-        lazy = true,
+        lazy = false,
         version = nil,
         cond = nil,
     },
-    spec = g_plugins.lazy.spec,
+    spec = vim.list_extend({
+        },
+        import_dirnames
+    ),
     -- Configure any other settings here. See the documentation for more details.
     -- colorscheme that will be used when installing plugins.
-    install = g_plugins.lazy.install,
+    install = {},
     -- automatically check for plugin updates
     checker = { enabled = true },
 })
