@@ -6,9 +6,9 @@ vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 vim.opt.fileencodings = "utf-8,ucs-bom,cp936,big5,gb18030,euc-jp,euc-kr,latin1"
 if vim.fn.has('win32') or vim.fn.has('win64') then
-    vim.opt.fileformats = dos,unix
+    vim.opt.fileformats = "dos,unix"
 else
-    vim.opt.fileformats = unix,dos
+    vim.opt.fileformats = "unix,dos"
 end
 vim.opt.formatoptions = vim.opt.formatoptions + "mMB"
 

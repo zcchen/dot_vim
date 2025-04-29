@@ -1,5 +1,3 @@
-local M = {}
-
 local lang_list = {
     -- programming lang & relates
     "c", "cpp", "cmake", "make", "doxygen", "go", "c_sharp", "java", "kotlin",
@@ -21,6 +19,7 @@ for _, v in ipairs(lang_list) do
         {":TSInstall " .. v }
     )
 end
+--local parser_abspath = G_path.plugins.abs .. "nvim-treesitter_parsers/"
 
 return {
     {
@@ -35,14 +34,14 @@ return {
             -- recommendation: set to false if you don't have `tree-sitter` cli installed locally
             auto_install = true,
             ---- if you need to change the installation directory of the parsers (see -> advanced setup)
-            parser_install_dir = parser_abspath,
+            --parser_install_dir = parser_abspath,
             highlight = {
                 enable = true,
                 -- note: these are the names of the parsers and not the filetype. (for example if you want to
                 -- or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-                disable = function(lang, buf)
+                disable = function(_, buf)
                     local max_filesize = 100 * 1024 -- 100 kb
-                    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+                    local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
                     if ok and stats and stats.size > max_filesize then
                         return true
                     end
@@ -54,14 +53,13 @@ return {
                 additional_vim_regex_highlighting = false,
             },
         },
-        config = function(_, opts)
-            local parser_abspath = g_path.plugins.abs .. "nvim-treesitter_parsers/"
-            if not vim.uv.fs_stat(parser_abspath) then
-                vim.uv.fs_mkdir(parser_abspath, tonumber('755', 8))
-            end
-            vim.opt.runtimepath:append(parser_abspath)
-            require("nvim-treesitter.configs").setup(opts)
-        end,
+        --config = function(_, opts)
+            --if not vim.uv.fs_stat(parser_abspath) then
+                --vim.uv.fs_mkdir(parser_abspath, tonumber('755', 8))
+            --end
+            --vim.opt.runtimepath:prepend(parser_abspath)
+            --require("nvim-treesitter.configs").setup(opts)
+        --end,
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",

@@ -1,0 +1,141 @@
+local lsp_configs = {
+    clangd = {},
+    lua_ls = {
+        settings = {
+            Lua = {
+                workspace = {
+                    checkThirdParty = false,
+                    -- Make the server aware of Neovim runtime files
+                    library = {
+                        vim.env.VIMRUNTIME
+                    }
+                },
+                codeLens = {
+                    enable = true,
+                },
+                completion = {
+                    callSnippet = "Replace",
+                },
+                doc = {
+                    privateName = { "^_" },
+                },
+                hint = {
+                    enable = true,
+                    setType = false,
+                    paramType = true,
+                    paramName = "Disable",
+                    semicolon = "Disable",
+                    arrayIndex = "Disable",
+                },
+            },
+        },
+    },
+    pylsp = {},
+    docker_compose_language_service = {},
+    dockerls = {},
+}
+
+return {
+    {
+        "williamboman/mason.nvim",
+        opts = {
+            install_root_dir = G_path.plugins.abs .. "mason_pkgs/",
+            ui = {
+                icons = {
+                    package_installed = "✓",
+                    package_pending = "➜",
+                    package_uninstalled = "✗"
+                }
+            },
+        },
+        --config = function(_, opts)
+        --end,
+    },
+    {
+        "williamboman/mason-lspconfig.nvim",
+        dependencies = {
+            "williamboman/mason.nvim",
+        },
+        opts = {
+            -- A list of servers to automatically install if they're not already installed. Example: { "rust_analyzer@nightly", "lua_ls" }
+            -- This setting has no relation with the `automatic_installation` setting.
+            ---@type string[]
+            ensure_installed = vim.tbl_keys(lsp_configs),
+
+            -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
+            -- This setting has no relation with the `ensure_installed` setting.
+            -- Can either be:
+            --   - false: Servers are not automatically installed.
+            --   - true: All servers set up via lspconfig are automatically installed.
+            --   - { exclude: string[] }: All servers set up via lspconfig, except the ones provided in the list, are automatically installed.
+            --       Example: automatic_installation = { exclude = { "rust_analyzer", "solargraph" } }
+            ---@type boolean
+            automatic_installation = true,      -- default is false
+
+            -- See `:h mason-lspconfig.setup_handlers()`
+            ---@type table<string, fun(server_name: string)>?
+            handlers = nil,
+        },
+    },
+    {
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
+        },
+        opts = {
+            -- options for vim.diagnostic.config()
+            ---@type vim.diagnostic.Opts
+            diagnostics = {
+                underline = true,
+                update_in_insert = false,
+                virtual_text = {
+                    spacing = 4,
+                    source = "if_many",
+                    prefix = "●",
+                    -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+                    -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+                    -- prefix = "icons",
+                },
+                severity_sort = true,
+            },
+            -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
+            -- Be aware that you also will need to properly configure your LSP server to
+            -- provide the inlay hints.
+            inlay_hints = {
+                enabled = true,
+                exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
+            },
+            -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
+            -- Be aware that you also will need to properly configure your LSP server to
+            -- provide the code lenses.
+            codelens = {
+                enabled = false,
+            },
+            -- add any global capabilities here
+            capabilities = {
+                workspace = {
+                    fileOperations = {
+                        didRename = true,
+                        willRename = true,
+                    },
+                },
+            },
+            -- options for vim.lsp.buf.format
+            -- `bufnr` and `filter` is handled by the LazyVim formatter,
+            -- but can be also overridden when specified
+            format = {
+                formatting_options = nil,
+                timeout_ms = nil,
+            },
+        },
+        config = function(_, opts)
+            for k, v in pairs(lsp_configs) do
+                vim.lsp.enable(k)
+                --if not vim.tbl_isempty(v) then
+                    vim.lsp.config(k, v)
+                --end
+            end
+        end,
+    }
+}
