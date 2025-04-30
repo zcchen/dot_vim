@@ -10,7 +10,7 @@ return {
             { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find buffers", mode = "n" },
             { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Find nvim help tags", mode = "n" },
             -- Comments
-            { "<leader>c", group = "Comments"},
+            --{ "<leader>c", group = "Comments"},
             -- windows
             { "<leader>w", proxy = "<c-w>", group = "windows" }, -- proxy to window mappings
             { "<leader>b", group = "buffers", expand = function()
@@ -33,7 +33,6 @@ return {
                 desc = "Buffer Local Keymaps (which-key)",
             },
         },
-        keys = {},
         config = function(_, opts)
             require("which-key").add(opts)
         end,

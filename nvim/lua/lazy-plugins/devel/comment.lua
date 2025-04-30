@@ -34,5 +34,9 @@ return {
                 extra = true,
             },
         },
+        config = function(_, opts)
+            require("Comment").setup(opts)
+            vim.keymap.del("n", "gc")
+        end,
     },
 }
