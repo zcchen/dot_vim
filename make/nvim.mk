@@ -1,19 +1,15 @@
-CONFIG_SRCS = vimrc vim
+CONFIG_SRCS = nvim
 
 DEB_DEPENDS =
-DEB_DEPENDS += universal-ctags
-DEB_DEPENDS += vim-youcompleteme
+DEB_DEPENDS += luarocks     # lazy.nvim
+DEB_DEPENDS += ripgrep      # telescope
+DEB_DEPENDS += python3-venv # pylsp
 
-CONFIG_DIR  = $(HOME)/
-CONFIG_OBJS = $(foreach s,$(HOME_SRCS),$(CONFIG_DIR)/.$(s))
-
-PLUGIN_OBJ  = $(HOME)/.vim/autoload/plug.vim
+CONFIG_DIR  = $(HOME)/.config
+CONFIG_OBJS = $(foreach s,$(CONFIG_SRCS),$(CONFIG_DIR)/$(s))
 
 REMOVE_CMD  = rm -if
 LINK_CMD    = ln -snf
-
-PLUGIN_MNG_URL  = https://raw.githubusercontent.com/junegunn/vim-plug/0.11.0/plug.vim
-PLUGIN_MNG_NAME = plug.vim
 
 .PHONY: all clean
 .PHONY: install update depends help
@@ -30,18 +26,14 @@ help:
 uninstall:
 	$(REMOVE_CMD) $(CONFIG_OBJS)
 
-install: $(CONFIG_OBJS) $(PLUGIN_OBJ)
-	vim +PlugInstall! +qall
+install: $(HOME_OBJS) $(CONFIG_OBJS)
+	nvim +"Lazy install" +qall
 
 deps:
 	sudo apt install $(DEB_DEPENDS)
 
 update: install
-	vim +PlugUpdate! +qall
+	nvim +"Lazy update" +qall
 
-$(CONFIG_DIR)/.%: %
+$(CONFIG_DIR)/%: %
 	$(LINK_CMD) "$(CURDIR)/$<" $@
-
-$(PLUGIN_OBJ):
-	mkdir -p $(dir $@)
-	wget "$(PLUGIN_MNG_URL)" -O $@

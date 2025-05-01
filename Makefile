@@ -1,9 +1,10 @@
 MAKEFILE_VIM = make/vim.mk
-MAKEFILE_VIM = make/nvim.mk
+MAKEFILE_NVIM = make/nvim.mk
 
-.PHONY: all help clean install update depends
+.PHONY: all
 all: help
 
+.PHONY: help
 help:
 	@echo "make < [vim/|nvim/]install | [vim/|nvim/]update | [vim/|nvim/]deps | [vim/|nvim/]uninstall >"
 	@echo "       install: Install this plugin on this system via soft-links."
@@ -12,31 +13,24 @@ help:
 	@echo "       deps: Install the command depends on this system."
 
 
+.PHONY: install
 install: vim/install nvim/install
+
+.PHONY: uninstall
 uninstall: vim/uninstall nvim/uninstall
+
+.PHONY: update
 update: vim/update nvim/update
+
+.PHONY: deps
 deps: vim/deps nvim/deps
 
-vim/install:
-	make -f $(MAKEFILE_VIM) install
 
-nvim/install:
-	make -f $(MAKEFILE_NVIM) install
+.PHONY: vim/%
+vim/%:
+	make -f $(MAKEFILE_VIM) $(subst vim/,,$@)
 
-vim/uninstall:
-	make -f $(MAKEFILE_VIM) uninstall
+.PHONY: nvim/%
+nvim/%:
+	make -f $(MAKEFILE_NVIM) $(subst nvim/,,$@)
 
-nvim/uninstall:
-	make -f $(MAKEFILE_NVIM) uninstall
-
-vim/update:
-	make -f $(MAKEFILE_VIM) update
-
-nvim/update:
-	make -f $(MAKEFILE_NVIM) update
-
-vim/deps:
-	make -f $(MAKEFILE_VIM) deps
-
-nvim/deps:
-	make -f $(MAKEFILE_NVIM) deps
