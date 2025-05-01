@@ -5,7 +5,7 @@ DEB_DEPENDS += universal-ctags
 DEB_DEPENDS += vim-youcompleteme
 
 CONFIG_DIR  = $(HOME)/
-CONFIG_OBJS = $(foreach s,$(HOME_SRCS),$(CONFIG_DIR)/.$(s))
+CONFIG_OBJS = $(foreach s,$(CONFIG_SRCS),$(CONFIG_DIR)/.$(s))
 
 PLUGIN_OBJ  = $(HOME)/.vim/autoload/plug.vim
 
@@ -42,6 +42,6 @@ update: install
 $(CONFIG_DIR)/.%: %
 	$(LINK_CMD) "$(CURDIR)/$<" $@
 
-$(PLUGIN_OBJ):
+$(PLUGIN_OBJ): $(CONFIG_OBJS)
 	mkdir -p $(dir $@)
 	wget "$(PLUGIN_MNG_URL)" -O $@

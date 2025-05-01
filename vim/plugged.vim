@@ -88,6 +88,7 @@ Plug 'cdelledonne/vim-cmake'
 Plug 'aklt/plantuml-syntax'
 Plug 'rhysd/vim-clang-format',                  { 'for': ['c', 'cpp'] }
 Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'sirtaj/vim-papyrus',                      { 'for': ['psc'] }
 
 " ====================== files pack =====================
 Plug 'mileszs/ack.vim'
