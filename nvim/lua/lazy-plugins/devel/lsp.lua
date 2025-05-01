@@ -70,7 +70,7 @@ return {
             --   - { exclude: string[] }: All servers set up via lspconfig, except the ones provided in the list, are automatically installed.
             --       Example: automatic_installation = { exclude = { "rust_analyzer", "solargraph" } }
             ---@type boolean
-            automatic_installation = true,      -- default is false
+            automatic_installation = true, -- default is false
 
             -- See `:h mason-lspconfig.setup_handlers()`
             ---@type table<string, fun(server_name: string)>?
@@ -104,7 +104,7 @@ return {
             -- provide the inlay hints.
             inlay_hints = {
                 enabled = true,
-                exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
+                -- exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
             },
             -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
             -- Be aware that you also will need to properly configure your LSP server to
@@ -130,11 +130,10 @@ return {
             },
         },
         config = function(_, opts)
+            vim.lsp.config("*", opts)
             for k, v in pairs(lsp_configs) do
                 vim.lsp.enable(k)
-                --if not vim.tbl_isempty(v) then
-                    vim.lsp.config(k, v)
-                --end
+                vim.lsp.config(k, v)
             end
         end,
     },
