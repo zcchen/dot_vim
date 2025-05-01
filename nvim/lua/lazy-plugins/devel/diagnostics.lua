@@ -15,6 +15,13 @@ return {
                 desc = "Buffer Diagnostics (Trouble)",
             },
             {
+                "<leader>xf",
+                function()
+                    vim.diagnostic.open_float()
+                end,
+                desc = "Float Diagnostics (Trouble)",
+            },
+            {
                 "<leader>xs",
                 "<cmd>Trouble symbols toggle focus=false<cr>",
                 desc = "Symbols (Trouble)",

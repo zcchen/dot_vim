@@ -5,10 +5,11 @@ vim.opt.modeline = true     -- active the modeline
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 vim.opt.fileencodings = "utf-8,ucs-bom,cp936,big5,gb18030,euc-jp,euc-kr,latin1"
-if vim.fn.has('win32') or vim.fn.has('win64') then
-    vim.opt.fileformats = "dos,unix"
-else
+local os_name = vim.uv.os_uname().sysname
+if os_name == "Linux" or os_name == "Unix" then
     vim.opt.fileformats = "unix,dos"
+else
+    vim.opt.fileformats = "dos,unix"
 end
 vim.opt.formatoptions = vim.opt.formatoptions + "mMB"
 
