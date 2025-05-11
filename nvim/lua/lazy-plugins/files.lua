@@ -16,32 +16,37 @@ return {
         ---@type neotree.Config?
         opts = {
             -- fill any relevant options here
+            close_if_last_window = true,
+            open_files_do_not_replace_types = { "terminal", "Trouble", "qf", "edgy" },
+            window = {
+                position = "current",
+            },
             source_selector = {
                 winbar = false, -- toggle to show selector on winbar
                 statusline = false, -- toggle to show selector on statusline
-                show_scrolled_off_parent_node = false,  -- boolean
-                sources = {                             -- table
+                show_scrolled_off_parent_node = false, -- boolean
+                sources = { -- table
                     {
-                        source = "filesystem",          -- string
-                        display_name = " 󰉓 Files "     -- string | nil
+                        source = "filesystem", -- string
+                        display_name = " 󰉓 Files " -- string | nil
                     },
                     {
-                        source = "buffers",             -- string
-                        display_name = " 󰈚 Buffers "   -- string | nil
+                        source = "buffers", -- string
+                        display_name = " 󰈚 Buffers " -- string | nil
                     },
                     {
-                        source = "git_status",          -- string
-                        display_name = " 󰊢 Git ",      -- string | nil
+                        source = "git_status", -- string
+                        display_name = " 󰊢 Git ", -- string | nil
                     },
                 },
-                content_layout = "start",       -- string
-                tabs_layout = "equal",          -- string
-                truncation_character = "…",    -- string
-                tabs_min_width = nil,           -- int | nil
-                tabs_max_width = nil,           -- int | nil
+                content_layout = "start", -- string
+                tabs_layout = "equal", -- string
+                truncation_character = "…", -- string
+                tabs_min_width = nil, -- int | nil
+                tabs_max_width = nil, -- int | nil
                 padding = 0,
                 -- int | { left: int, right: int }
-                separator = { left = "▏", right= "▕" },
+                separator = { left = "▏", right = "▕" },
                 -- string | { left: string, right: string, override: string | nil }
                 separator_active = nil,
                 -- string | { left: string, right: string, override: string | nil } | nil
@@ -55,7 +60,7 @@ return {
             filesystem = {
                 filtered_items = {
                     visible = false,
-                        -- when true, they will just be displayed differently than normal items
+                    -- when true, they will just be displayed differently than normal items
                     hide_dotfiles = true,
                     hide_gitignored = false,
                     hide_hidden = true, -- only works on Windows for hidden files/directories
@@ -101,6 +106,17 @@ return {
                 },
             },
         },
+        config = function(_, opts)
+            require("neo-tree").setup(opts)
+            vim.api.nvim_create_autocmd(
+                { "BufEnter", "BufWinEnter" },
+                {
+                    pattern = { "neotree *", "neo-tree *" },
+                    callback = function()
+                        vim.opt_local.foldenable = false
+                    end
+                })
+        end,
     },
     {
         'nvim-telescope/telescope.nvim',
@@ -109,7 +125,7 @@ return {
         },
         opts = {},
         --config = function(_, opts)
-            --require("telescope").setup(opts)
+        --require("telescope").setup(opts)
         --end,
     },
 }
