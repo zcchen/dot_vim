@@ -30,7 +30,20 @@ local lsp_configs = {
             },
         },
     },
-    pylsp = {},
+    pylsp = {
+        settings = {
+            pylsp = {
+                plugins = {
+                    pycodestyle = {
+                        ignore = {
+                            'W391',
+                        },
+                        maxLineLength = 100
+                    }
+                }
+            }
+        }
+    },
     docker_compose_language_service = {},
     dockerls = {},
 }
