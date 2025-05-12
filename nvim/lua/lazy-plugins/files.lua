@@ -104,6 +104,12 @@ return {
                         conflict  = "",
                     }
                 },
+                indent = {
+                    with_markers = true,
+                    indent_marker = "│",
+                    last_indent_marker = "└ ",
+                    indent_size = 2,
+                },
             },
         },
         config = function(_, opts)
