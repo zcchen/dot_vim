@@ -7,8 +7,8 @@ local lsp_configs = {
                     checkThirdParty = false,
                     -- Make the server aware of Neovim runtime files
                     library = {
-                        vim.env.VIMRUNTIME
-                    }
+                        vim.env.VIMRUNTIME,
+                    },
                 },
                 codeLens = {
                     enable = true,
@@ -36,17 +36,31 @@ local lsp_configs = {
                 plugins = {
                     pycodestyle = {
                         ignore = {
-                            'W391',
+                            "W391",
                         },
-                        maxLineLength = 100
-                    }
-                }
-            }
-        }
+                        maxLineLength = 100,
+                    },
+                },
+            },
+        },
     },
     docker_compose_language_service = {},
     dockerls = {},
+    jinja_lsp = {
+        filetypes = { "jinja" },
+    },
+    -- curlylint = {},
 }
+local function lsp_post_configure()
+    -- Add jinja2 related extension
+    vim.filetype.add({
+        extension = {
+            jinja = "jinja",
+            jinja2 = "jinja",
+            j2 = "jinja",
+        },
+    })
+end
 
 return {
     {
@@ -57,8 +71,8 @@ return {
                 icons = {
                     package_installed = "✓",
                     package_pending = "➜",
-                    package_uninstalled = "✗"
-                }
+                    package_uninstalled = "✗",
+                },
             },
         },
         --config = function(_, opts)
@@ -148,8 +162,41 @@ return {
                 vim.lsp.enable(k)
                 vim.lsp.config(k, v)
             end
+            lsp_post_configure()
         end,
     },
+    --[[ {
+        "nvimtools/none-ls.nvim",
+        config = function(_, opts)
+            local null_ls = require("null-ls")
+            local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+            null_ls.setup({
+                sources = {
+                    null_ls.builtins.formatting.stylua,
+                    null_ls.builtins.completion.spell,
+                    null_ls.builtins.diagnostics.djlint,
+                    -- require("null-ls.diagnostics.eslint"), -- requires none-ls-extras.nvim
+                    null_ls.builtins.formatting.prettier.with({
+                        filetypes = { "html", "json", "yaml", "markdown" },
+                        extra_filetypes = { "toml", "jinja2" },
+                    }),
+                },
+                on_attach = function(client, bufnr)
+                    if client.supports_method("textDocument/formatting") then
+                        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+                        vim.api.nvim_create_autocmd("BufWritePre", {
+                            group = augroup,
+                            buffer = bufnr,
+                            callback = function()
+                                -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+                                vim.lsp.buf.format({ bufnr = bufnr })
+                            end,
+                        })
+                    end
+                end,
+            })
+        end,
+    }, ]]
     {
         "folke/lazydev.nvim",
         ft = "lua", -- only load on lua files

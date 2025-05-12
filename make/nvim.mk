@@ -4,6 +4,7 @@ DEB_DEPENDS =
 DEB_DEPENDS += luarocks     # lazy.nvim
 DEB_DEPENDS += ripgrep      # telescope
 DEB_DEPENDS += python3-venv # pylsp
+DEB_DEPENDS += cargo    	# many lsp required, like: jinja-lsp
 
 CONFIG_DIR  = $(HOME)/.config
 CONFIG_OBJS = $(foreach s,$(CONFIG_SRCS),$(CONFIG_DIR)/$(s))
