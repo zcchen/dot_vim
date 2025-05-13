@@ -180,14 +180,11 @@ return {
                         end
                     end
                     if is_matched then
-                        vim.notify("Proxy setup", vim.log.levels["WARN"])
                         dotenv.load(proxy_file_set)
                     else
-                        vim.notify("Proxy clear", vim.log.levels["WARN"])
                         dotenv.load(proxy_file_cls)
                     end
                 end,
-                -- once = true,
             })
         end,
     },
