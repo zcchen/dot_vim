@@ -152,4 +152,43 @@ return {
         --require("telescope").setup(opts)
         --end,
     },
+    {
+        "zcchen/dotenv.nvim",
+        opts = {
+            enable_on_load = false, -- will load your .env file upon loading a buffer
+            verbose = false,         -- show error notification if .env file is not found and if .env is loaded
+            -- file_name = '.env' -- will override the default file name '.env'
+        },
+        config = function(_, opts)
+            local dotenv = require("dotenv")
+            dotenv.setup(opts)
+            local proxy_file_set = vim.fn.expand("~/.profile.d/proxy-set.env")
+            local proxy_file_cls = vim.fn.expand("~/.profile.d/proxy-cls.env")
+            local bufwin_filetypes = {
+                "mason", "lazy"
+            }
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "*",
+                callback = function()
+                    local is_matched = false
+                    local curr_ft = vim.bo.filetype 
+                    for _, v in ipairs(bufwin_filetypes) do
+                        local v_expand = v .. ".*"
+                        if string.match(curr_ft, v_expand) then
+                            is_matched = true
+                            break
+                        end
+                    end
+                    if is_matched then
+                        vim.notify("Proxy setup", vim.log.levels["WARN"])
+                        dotenv.load(proxy_file_set)
+                    else
+                        vim.notify("Proxy clear", vim.log.levels["WARN"])
+                        dotenv.load(proxy_file_cls)
+                    end
+                end,
+                -- once = true,
+            })
+        end,
+    },
 }
