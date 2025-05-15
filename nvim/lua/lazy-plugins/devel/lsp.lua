@@ -1,99 +1,117 @@
 local lsp_configs = {
     clangd = {},
     lua_ls = {
-        settings = {
-            Lua = {
-                workspace = {
-                    checkThirdParty = false,
-                    -- Make the server aware of Neovim runtime files
-                    library = {
-                        vim.env.VIMRUNTIME,
+        config = {
+            settings = {
+                Lua = {
+                    workspace = {
+                        checkThirdParty = false,
+                        -- Make the server aware of Neovim runtime files
+                        library = {
+                            vim.env.VIMRUNTIME,
+                        },
                     },
-                },
-                codeLens = {
-                    enable = true,
-                },
-                completion = {
-                    callSnippet = "Replace",
-                },
-                doc = {
-                    privateName = { "^_" },
-                },
-                hint = {
-                    enable = true,
-                    setType = false,
-                    paramType = true,
-                    paramName = "Disable",
-                    semicolon = "Disable",
-                    arrayIndex = "Disable",
+                    codeLens = {
+                        enable = true,
+                    },
+                    completion = {
+                        callSnippet = "Replace",
+                    },
+                    doc = {
+                        privateName = { "^_" },
+                    },
+                    hint = {
+                        enable = true,
+                        setType = false,
+                        paramType = true,
+                        paramName = "Disable",
+                        semicolon = "Disable",
+                        arrayIndex = "Disable",
+                    },
                 },
             },
         },
     },
     pylsp = {
-        settings = {
-            pylsp = {
-                plugins = {
-                    -- formatter options
-                    black = { enabled = true },
-                    autopep8 = { enabled = false },
-                    yapf = { enabled = false },
-                    -- linter options
-                    pylint = {
-                        enabled = true,
-                        executable = "pylint",
-                        args = {
-                            "--disable=missing-function-docstring",
-                            "--disable=missing-class-docstring",
-                            "--disable=missing-module-docstring",
-                            "--disable=invalid-name",
-                            "--rcfile",
-                            vim.fs.find(
-                                { "pyproject.toml", ".pylintrc", "setup.py", ".git" },
-                                { upward = true, limit = 8 }
-                            ),
+        config = {
+            settings = {
+                pylsp = {
+                    plugins = {
+                        -- formatter options
+                        black = { enabled = true },
+                        autopep8 = { enabled = false },
+                        yapf = { enabled = false },
+                        -- linter options
+                        pylint = {
+                            enabled = true,
+                            executable = "pylint",
+                            args = {
+                                "--disable=missing-function-docstring",
+                                "--disable=missing-class-docstring",
+                                "--disable=missing-module-docstring",
+                                "--disable=invalid-name",
+                                "--rcfile",
+                                vim.fs.find(
+                                    { "pyproject.toml", ".pylintrc", "setup.py", ".git" },
+                                    { upward = true, limit = 8 }
+                                ),
+                            },
                         },
-                    },
-                    ruff = { enabled = false },
-                    pyflakes = { enabled = false },
-                    pycodestyle = {
-                        enabled = false,
-                        ignore = {
-                            "W391",
+                        ruff = { enabled = false },
+                        pyflakes = { enabled = false },
+                        pycodestyle = {
+                            enabled = false,
+                            ignore = {
+                                "W391",
+                            },
+                            maxLineLength = 100,
                         },
-                        maxLineLength = 100,
+                        -- type checker
+                        pylsp_mypy = {
+                            enabled = true,
+                            report_progress = true,
+                            live_mode = false
+                        },
+                        -- auto-completion options
+                        jedi_completion = { fuzzy = true },
+                        -- import sorting
+                        isort = { enabled = true },
                     },
-                    -- type checker
-                    pylsp_mypy = {
-                        enabled = true,
-                        report_progress = true,
-                        live_mode = false
-                    },
-                    -- auto-completion options
-                    jedi_completion = { fuzzy = true },
-                    -- import sorting
-                    isort = { enabled = true },
                 },
             },
-        },
+        }
     },
-    docker_compose_language_service = {},
+    docker_compose_language_service = {
+        post_config = function ()
+            vim.api.nvim_create_autocmd("FileType", {
+                    pattern = {"yaml"},
+                    callback = function(_)
+                        local parent_dirname = vim.fs.basename(vim.fs.dirname(vim.fn.expand("%:p")))
+                        if parent_dirname == "docker-compose" then
+                            vim.cmd("set filetype=yaml.docker-compose")
+                        end
+                    end
+                }
+            )
+        end
+    },
     dockerls = {},
     jinja_lsp = {
-        filetypes = { "jinja" },
+        config = {
+            filetypes = { "jinja" },
+        },
+        post_config = function ()
+            vim.filetype.add({
+                extension = {
+                    jinja = "jinja",
+                    jinja2 = "jinja",
+                    j2 = "jinja",
+                },
+            })
+        end
     },
     -- curlylint = {},
 }
-local function lsp_post_configure()
-    -- Add jinja2 related extension
-    vim.filetype.add({
-        extension = {
-            jinja = "jinja",
-            jinja2 = "jinja",
-            j2 = "jinja",
-        },
-    })
-end
 
 return {
     {
@@ -193,9 +211,13 @@ return {
             vim.lsp.config("*", opts)
             for k, v in pairs(lsp_configs) do
                 vim.lsp.enable(k)
-                vim.lsp.config(k, v)
+                if v.config then
+                    vim.lsp.config(k, v.config)
+                end
+                if v.post_config then
+                    v.post_config()
+                end
             end
-            lsp_post_configure()
         end,
     },
     --[[ {
