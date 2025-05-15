@@ -34,12 +34,45 @@ local lsp_configs = {
         settings = {
             pylsp = {
                 plugins = {
+                    -- formatter options
+                    black = { enabled = true },
+                    autopep8 = { enabled = false },
+                    yapf = { enabled = false },
+                    -- linter options
+                    pylint = {
+                        enabled = true,
+                        executable = "pylint",
+                        args = {
+                            "--disable=missing-function-docstring",
+                            "--disable=missing-class-docstring",
+                            "--disable=missing-module-docstring",
+                            "--disable=invalid-name",
+                            "--rcfile",
+                            vim.fs.find(
+                                { "pyproject.toml", ".pylintrc", "setup.py", ".git" },
+                                { upward = true, limit = 8 }
+                            ),
+                        },
+                    },
+                    ruff = { enabled = false },
+                    pyflakes = { enabled = false },
                     pycodestyle = {
+                        enabled = false,
                         ignore = {
                             "W391",
                         },
                         maxLineLength = 100,
                     },
+                    -- type checker
+                    pylsp_mypy = {
+                        enabled = true,
+                        report_progress = true,
+                        live_mode = false
+                    },
+                    -- auto-completion options
+                    jedi_completion = { fuzzy = true },
+                    -- import sorting
+                    isort = { enabled = true },
                 },
             },
         },
