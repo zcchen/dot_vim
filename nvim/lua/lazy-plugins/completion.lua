@@ -24,6 +24,17 @@ return {
             -- See the full "keymap" documentation for information on defining your own keymap.
             keymap = {
                 preset = "super-tab",
+                -- ['<Tab>'] = {
+                --     function(cmp)
+                --         if cmp.snippet_active() then
+                --             return cmp.accept()
+                --         else
+                --             return cmp.select_and_accept()
+                --         end
+                --     end,
+                --     'snippet_forward',
+                --     'fallback'
+                -- },
                 -- ["<tab>"] = { "show", 'snippet_forward', 'fallback' },
                 -- ["<esc>"] = { "hide", 'fallback' },
                 -- ['<C-l>'] = { 'show', 'show_documentation', 'hide_documentation' },
@@ -127,6 +138,12 @@ return {
                 },
                 trigger = {
                     show_in_snippet = false,
+                },
+                list = {
+                    selection = {
+                        preselect = true,
+                        auto_insert = true,
+                    },
                 },
             },
         },
