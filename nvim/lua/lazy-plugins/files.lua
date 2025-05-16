@@ -171,7 +171,7 @@ return {
                 pattern = "*",
                 callback = function()
                     local is_matched = false
-                    local curr_ft = vim.bo.filetype 
+                    local curr_ft = vim.bo.filetype
                     for _, v in ipairs(bufwin_filetypes) do
                         local v_expand = v .. ".*"
                         if string.match(curr_ft, v_expand) then
