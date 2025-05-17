@@ -24,17 +24,6 @@ return {
             -- See the full "keymap" documentation for information on defining your own keymap.
             keymap = {
                 preset = "super-tab",
-                -- ['<Tab>'] = {
-                --     function(cmp)
-                --         if cmp.snippet_active() then
-                --             return cmp.accept()
-                --         else
-                --             return cmp.select_and_accept()
-                --         end
-                --     end,
-                --     'snippet_forward',
-                --     'fallback'
-                -- },
                 -- ["<tab>"] = { "show", 'snippet_forward', 'fallback' },
                 -- ["<esc>"] = { "hide", 'fallback' },
                 -- ['<C-l>'] = { 'show', 'show_documentation', 'hide_documentation' },
@@ -62,20 +51,6 @@ return {
                         -- make lazydev completions top priority (see `:h blink.cmp`)
                         score_offset = 100,
                     },
-                    --[[ path = {
-                        name = "path",
-                        module = "blink.cmp.sources.path",
-                        enabled = true,
-                        score_offset = 3,
-                        opts = {
-                            trailing_slash = false,
-                            label_trailing_slash = true,
-                            get_cwd = function(ctx)
-                                return vim.fn.expand(("#%d:p:h").format(ctx.bufnr))
-                            end,
-                        },
-                        should_show_items = true,
-                    }, ]]
                 },
             },
             cmdline = {
@@ -141,8 +116,21 @@ return {
                 },
                 list = {
                     selection = {
-                        preselect = true,
-                        auto_insert = true,
+                        preselect = function(_)
+                            return not require('blink.cmp').snippet_active({ direction = 1 })
+                        end,
+                        auto_insert = function(_)
+                            local skip_ft = {
+                                "markdown.*"
+                            }
+                            local ft = vim.bo.filetype
+                            for _, v in pairs(skip_ft) do
+                                if ft == v then
+                                    return false
+                                end
+                            end
+                            return true
+                        end,
                     },
                 },
             },
