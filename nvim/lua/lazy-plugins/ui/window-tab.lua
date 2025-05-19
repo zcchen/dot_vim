@@ -38,7 +38,8 @@ return {
                     local label = {}
 
                     for severity, icon in pairs(icons) do
-                        local n = #vim.diagnostic.get(props.buf, { severity = vim.diagnostic.severity[string.upper(severity)] })
+                        local n = #vim.diagnostic.get(props.buf,
+                            { severity = vim.diagnostic.severity[string.upper(severity)] })
                         if n > 0 then
                             table.insert(label, { icon .. n .. ' ', group = 'DiagnosticSign' .. severity })
                         end
@@ -57,11 +58,10 @@ return {
                     { '┊  ' .. vim.api.nvim_win_get_number(props.win), group = 'DevIconWindows' },
                 }
             end,
+            hide = {
+                -- You can omit this because false is the default value
+                cursorline = true,
+            },
         },
-        --config = function(_, opts)
-            --local devicons = require 'nvim-web-devicons'
-            --require('incline').setup(opts)
-        --end,
     },
 }
-
