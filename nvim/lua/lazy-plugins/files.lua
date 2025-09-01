@@ -59,6 +59,7 @@ return {
             },
             filesystem = {
                 filtered_items = {
+                    ignore_case = true,
                     visible = false,
                     -- when true, they will just be displayed differently than normal items
                     hide_dotfiles = true,
