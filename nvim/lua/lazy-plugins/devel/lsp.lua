@@ -39,8 +39,8 @@ local lsp_configs = {
                     plugins = {
                         -- formatter options
                         black = { enabled = true },
-                        autopep8 = { enabled = false },
-                        yapf = { enabled = false },
+                        autopep8 = { enabled = true },
+                        yapf = { enabled = true },
                         -- linter options
                         pylint = {
                             enabled = true,
@@ -60,7 +60,7 @@ local lsp_configs = {
                         ruff = { enabled = false },
                         pyflakes = { enabled = false },
                         pycodestyle = {
-                            enabled = false,
+                            enabled = true,
                             ignore = {
                                 "W391",
                             },
