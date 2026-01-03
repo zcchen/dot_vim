@@ -1,10 +1,13 @@
 CONFIG_SRCS = nvim
 
 DEB_DEPENDS =
-DEB_DEPENDS += luarocks     # lazy.nvim
+# DEB_DEPENDS += luarocks     # lazy.nvim
 DEB_DEPENDS += ripgrep      # telescope
 DEB_DEPENDS += python3-venv # pylsp
-DEB_DEPENDS += cargo    	# many lsp required, like: jinja-lsp
+DEB_DEPENDS += cargo        # many lsp required, like: jinja-lsp
+DEB_DEPENDS += npm          # some lsp required
+DEB_DEPENDS += curl         # Mason download tools
+DEB_DEPENDS += clangd       # some lsp required
 
 CONFIG_DIR  = $(HOME)/.config
 CONFIG_OBJS = $(foreach s,$(CONFIG_SRCS),$(CONFIG_DIR)/$(s))

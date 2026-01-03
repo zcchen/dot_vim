@@ -1,5 +1,5 @@
-MAKEFILE_VIM = make/vim.mk
-MAKEFILE_NVIM = make/nvim.mk
+MAKEFILE_VIM = vim/Makefile
+MAKEFILE_NVIM = nvim/Makefile
 
 .PHONY: all
 all: help
