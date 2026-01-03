@@ -7,7 +7,7 @@ local lang_list = {
     -- Web-base
     "html", "css", "javascript", "typescript", "sql", "htmldjango", "jinja", "jinja_inline", "vue",
     -- configs
-    "ini", "json", "markdown", "markdown_inline", "toml", "xml", "csv", "dockerfile",
+    "ini", "dosini", "json", "markdown", "markdown_inline", "toml", "xml", "csv", "dockerfile",
     -- server-related
     "nginx", "vim", "vimdoc"
 }
