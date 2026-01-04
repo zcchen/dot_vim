@@ -3,6 +3,7 @@ CONFIG_SRCS = vimrc vim
 DEB_DEPENDS =
 DEB_DEPENDS += universal-ctags
 DEB_DEPENDS += vim-youcompleteme
+# DEB_DEPENDS += python3-flake8
 
 CONFIG_DIR  = $(HOME)/
 CONFIG_OBJS = $(foreach s,$(CONFIG_SRCS),$(CONFIG_DIR)/.$(s))
@@ -30,7 +31,7 @@ help:
 uninstall:
 	$(REMOVE_CMD) $(CONFIG_OBJS)
 
-install: $(CONFIG_OBJS) $(PLUGIN_OBJ)
+install: $(CONFIG_OBJS) $(PLUGIN_OBJ) deps
 	vim +PlugInstall! +qall
 
 deps:

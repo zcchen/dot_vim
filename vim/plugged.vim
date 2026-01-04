@@ -53,7 +53,7 @@ if has('unix')
         let g:plugs.YouCompleteMe = {'uri': 'file:///usr/share/vim-youcompleteme', 'dir': '/usr/share/vim-youcompleteme', 'frozen': 0, 'branch': ''}
     else
         "Plug 'Valloric/YouCompleteMe', { 'commit': 'd98f896', 'do': './install.py --clang-completer --system-libclang'}
-        Plug 'Valloric/YouCompleteMe'
+        Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang'}
     endif
 endif
 "NOTE: Use the YouCompleteMe plugin from distr provider
