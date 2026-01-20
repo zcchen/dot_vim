@@ -1,45 +1,42 @@
-@ECHO OFF
+ECHO OFF
+SETLOCAL
 
 REM Since it is difficult to use `make` in windows,
 REM using `make.bat` is the easiest way to setup my env.
 
-SET VIMRC_SRC=_.vimrc
-SET VIMDIR_SRC=_.vim
-SET CVIMRC_SRC=_.cvimrc
+SET PLUGIN_MNG_NAME=plug.vim
+SET PLUGIN_MNG_URL="https://raw.githubusercontent.com/junegunn/vim-plug/0.11.0/%PLUGIN_MNG_NAME%"
 
-SET WGET_CMD=certutil.exe -urlcache -split -f
-SET WGET_OUTPUT=
-SET VIMRC_OBJ_WIN=%UserProfile%\_vimrc
-SET VIMRC_OBJ_UNIX=%UserProfile%\.vimrc
-SET VIMDIR_OBJ_WIN=%UserProfile%\vimfiles
-SET VIMDIR_OBJ_UNIX=%UserProfile%\.vim
-REM SET CVIMRC_SRC=%UserProfile%\_cvimrc
+SET VIMDIR_OBJ=%UserProfile%\vimfiles
 
-REM SET PLUGIN_MNG_URL="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-REM SET PLUGIN_MNG_NAME=plug.vim
+:main
+    echo "--- vim dotfile: remove dir '%VIMDIR_OBJ%' and re-link it."
+    rmdir /s /q "%VIMDIR_OBJ%"
+    CALL :do_link_vimfiles
+    echo "--- vim dotfile: '%VIMDIR_OBJ%' is ready."
+    IF NOT EXIST "%VIMDIR_OBJ%\autoload\%PLUGIN_MNG_NAME%" (
+        CALL :do_download_plugin_manager
+    )
+    echo "--- vim dotfile: plugin manager '%PLUGIN_MNG_NAME%' is ready."
+    CALL :do_install_plugins
+    echo "--- vim dotfile: plugins are installed."
+    pause
+    GOTO :EOF
 
-ECHO "=================="
-ECHO "grant this permission to set Local Policies\User Rights Assignment\Create symbolic links"
-ECHO "=================="
-start secpol.msc
-PAUSE
+:do_link_vimfiles
+    MKLINK /J %VIMDIR_OBJ% %CD%\vim
+    REM REM dir "%UserProfile%\.vim" is for win32unix sub-systems (like git-windows)
+    REM MKLINK /J %UserProfile%\.vim %VIMDIR_OBJ% 
+    GOTO :EOF
 
-RD /Q "%VIMRC_OBJ_WIN%"
-RD /S /Q "%VIMDIR_OBJ_WIN%"
-RD /Q "%VIMRC_OBJ_UNIX%"
-RD /S /Q "%VIMDIR_OBJ_UNIX%"
-MKLINK     "%VIMRC_OBJ_WIN%"   %CD%\%VIMRC_SRC%
-MKLINK /J "%VIMDIR_OBJ_WIN%"  %CD%\%VIMDIR_SRC%
-MKLINK     "%VIMRC_OBJ_UNIX%"     "%VIMRC_OBJ_WIN%"
-MKLINK /J "%VIMDIR_OBJ_UNIX%"    "%VIMDIR_OBJ_WIN%"
-REM MKDIR "%VIMDIR_OBJ_WIN%\autoload"
-REM %WGET_CMD% %PLUGIN_MNG_URL% %WGET_OUTPUT% "%VIMDIR_OBJ_WIN%\autoload\%PLUGIN_MNG_NAME%"
+:do_download_plugin_manager
+    IF NOT EXIST "%VIMDIR_OBJ%\autoload" (
+        MKDIR "%VIMDIR_OBJ%\autoload"
+    )
+    curl %PLUGIN_MNG_URL% -o "%VIMDIR_OBJ%\autoload\%PLUGIN_MNG_NAME%"
+    GOTO :EOF
 
-ECHO "=================="
-ECHO "Remove this permission to set Local Policies\User Rights Assignment\Create symbolic links"
-ECHO "=================="
-start secpol.msc
-PAUSE
+:do_install_plugins
+    cmd /c vim +PlugInstall! +qall
+    GOTO :EOF
 
-ECHO "Windows link is finished..."
-PAUSE

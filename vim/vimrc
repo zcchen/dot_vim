@@ -8,8 +8,8 @@ if !exists('$VIMHOME')
     endif
 endif
 
-if has('win32') || has ('win64')
-    set pythonthreedll=python38.dll
+if has('win32') || has ('win64') || has("win32unix")
+    set pythonthreedll=python3.dll
 endif
 
 source $VIMHOME/plugged.vim   " new vim-plugged manager

@@ -1,4 +1,5 @@
-CONFIG_SRCS = vimrc vim
+#CONFIG_SRCS = vimrc vim
+CONFIG_SRCS = vim
 
 DEB_DEPENDS =
 DEB_DEPENDS += universal-ctags
