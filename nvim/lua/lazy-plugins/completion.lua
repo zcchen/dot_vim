@@ -3,9 +3,14 @@ return {
         "saghen/blink.cmp",
         -- optional: provides snippets for the snippet source
         dependencies = {
+            'saghen/blink.lib',
+            'rafamadriz/friendly-snippets',
             'L3MON4D3/LuaSnip',
             "xzbdmw/colorful-menu.nvim",
             "onsails/lspkind.nvim",
+            -- rg grep supports as below:
+            "mikavilpas/blink-ripgrep.nvim",
+            "folke/snacks.nvim",
         },
 
         -- use a release tag to download pre-built binaries
@@ -28,6 +33,12 @@ return {
                 -- ["<esc>"] = { "hide", 'fallback' },
                 -- ['<C-l>'] = { 'show', 'show_documentation', 'hide_documentation' },
                 -- ['<C-h>'] = { 'show_signature', 'hide_signature', 'fallback' }
+                ["<leader>rg"] = {
+                    function()
+                        -- invoke manually, requires blink >v0.8.0
+                        require("blink-cmp").show({ providers = { "ripgrep" } })
+                    end,
+                },
             },
 
             appearance = {
@@ -51,112 +62,6 @@ return {
                         -- make lazydev completions top priority (see `:h blink.cmp`)
                         score_offset = 100,
                     },
-                },
-            },
-            cmdline = {
-                enabled = true,
-            },
-            snippets = { preset = 'luasnip' },
-            completion = {
-                menu = {
-                    draw = {
-                        columns = {
-                            { "kind_icon" },
-                            { "label",    "label_description", gap = 1 },
-                        },
-                        components = {
-                            label = {
-                                text = function(ctx)
-                                    return require("colorful-menu").blink_components_text(ctx)
-                                end,
-                                highlight = function(ctx)
-                                    return require("colorful-menu").blink_components_highlight(ctx)
-                                end,
-                            },
-                            kind_icon = {
-                                text = function(ctx)
-                                    local icon = ctx.kind_icon
-                                    if vim.tbl_contains({ "path" }, ctx.source_name) then
-                                        local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
-                                        if dev_icon then
-                                            icon = dev_icon
-                                        else
-                                            icon = require("lspkind").symbolic(ctx.kind, {
-                                                mode = "symbol",
-                                            })
-                                        end
-                                    end
-
-                                    return icon .. ctx.icon_gap
-                                end,
-
-                                -- optionally, use the highlight groups from nvim-web-devicons
-                                -- you can also add the same function for `kind.highlight` if you want to
-                                -- keep the highlight groups in sync with the icons.
-                                highlight = function(ctx)
-                                    local hl = ctx.kind_hl
-                                    if vim.tbl_contains({ "path" }, ctx.source_name) then
-                                        local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
-                                        if dev_icon then
-                                            hl = dev_hl
-                                        end
-                                    end
-                                    return hl
-                                end,
-                            }
-                        },
-                    }
-                },
-                documentation = {
-                    auto_show = true,
-                    auto_show_delay_ms = 0,
-                },
-                trigger = {
-                    show_in_snippet = false,
-                },
-                list = {
-                    selection = {
-                        preselect = function(_)
-                            return not require('blink.cmp').snippet_active({ direction = 1 })
-                        end,
-                        auto_insert = function(_)
-                            local skip_ft = {
-                                "markdown.*"
-                            }
-                            local ft = vim.bo.filetype
-                            for _, v in pairs(skip_ft) do
-                                if ft == v then
-                                    return false
-                                end
-                            end
-                            return true
-                        end,
-                    },
-                },
-            },
-        },
-        opts_extend = { "sources.default" },
-    },
-    {
-        "saghen/blink.cmp",
-        dependencies = {
-            "mikavilpas/blink-ripgrep.nvim",
-            -- 👆🏻👆🏻 add the dependency here
-
-            -- optional dependency used for toggling features on/off
-            -- https://github.com/folke/snacks.nvim
-            "folke/snacks.nvim",
-        },
-        ---@module 'blink.cmp'
-        ---@type blink.cmp.Config
-        opts = {
-            sources = {
-                default = {
-                    "buffer",
-                    "ripgrep", -- 👈🏻 add "ripgrep" here
-                },
-                providers = {
-                    -- 👇🏻👇🏻 add the ripgrep provider config below
                     ripgrep = {
                         module = "blink-ripgrep",
                         name = "Ripgrep",
@@ -275,17 +180,90 @@ return {
                         end,
                     },
                 },
-                keymap = {
-                    -- 👇🏻👇🏻 (optional) add a keymap to invoke the search manually
-                    ["<leader>rg"] = {
-                        function()
-                            -- invoke manually, requires blink >v0.8.0
-                            require("blink-cmp").show({ providers = { "ripgrep" } })
+            },
+            cmdline = {
+                enabled = true,
+            },
+            snippets = { preset = 'luasnip' },
+            completion = {
+                menu = {
+                    draw = {
+                        columns = {
+                            { "kind_icon" },
+                            { "label",    "label_description", gap = 1 },
+                        },
+                        components = {
+                            label = {
+                                text = function(ctx)
+                                    return require("colorful-menu").blink_components_text(ctx)
+                                end,
+                                highlight = function(ctx)
+                                    return require("colorful-menu").blink_components_highlight(ctx)
+                                end,
+                            },
+                            kind_icon = {
+                                text = function(ctx)
+                                    local icon = ctx.kind_icon
+                                    if vim.tbl_contains({ "path" }, ctx.source_name) then
+                                        local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
+                                        if dev_icon then
+                                            icon = dev_icon
+                                        else
+                                            icon = require("lspkind").symbolic(ctx.kind, {
+                                                mode = "symbol",
+                                            })
+                                        end
+                                    end
+
+                                    return icon .. ctx.icon_gap
+                                end,
+
+                                -- optionally, use the highlight groups from nvim-web-devicons
+                                -- you can also add the same function for `kind.highlight` if you want to
+                                -- keep the highlight groups in sync with the icons.
+                                highlight = function(ctx)
+                                    local hl = ctx.kind_hl
+                                    if vim.tbl_contains({ "path" }, ctx.source_name) then
+                                        local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
+                                        if dev_icon then
+                                            hl = dev_hl
+                                        end
+                                    end
+                                    return hl
+                                end,
+                            }
+                        },
+                    }
+                },
+                documentation = {
+                    auto_show = true,
+                    auto_show_delay_ms = 0,
+                },
+                trigger = {
+                    show_in_snippet = false,
+                },
+                list = {
+                    selection = {
+                        preselect = function(_)
+                            return not require('blink.cmp').snippet_active({ direction = 1 })
+                        end,
+                        auto_insert = function(_)
+                            local skip_ft = {
+                                "markdown.*"
+                            }
+                            local ft = vim.bo.filetype
+                            for _, v in pairs(skip_ft) do
+                                if ft == v then
+                                    return false
+                                end
+                            end
+                            return true
                         end,
                     },
                 },
             },
-        }
+        },
+        opts_extend = { "sources.default" },
     },
     {
         "L3MON4D3/LuaSnip",
