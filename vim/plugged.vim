@@ -84,7 +84,7 @@ Plug 'tell-k/vim-autopep8',                     { 'for': ['python'] }
 Plug 'dyng/ctrlsf.vim'
 Plug 'kylef/apiblueprint.vim'
 Plug 'gi1242/vim-tex-syntax',                   { 'for': ['tex', 'latex'] }
-if has('unix')
+if (has('unix') && !has('win32unix'))
     Plug 'cdelledonne/vim-cmake'
 endif
 Plug 'aklt/plantuml-syntax'
