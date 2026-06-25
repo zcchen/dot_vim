@@ -38,33 +38,9 @@ return {
             -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
             -- See the full "keymap" documentation for information on defining your own keymap.
             keymap = {
-                ['<Tab>'] = {
-                    function(cmp)
-                        if cmp.is_visible() then
-                            return cmp.select_next()
-                        end
-                        cmp.show()
-                        local items = cmp.get_items() or {}
-                        if #items > 0 then -- since items found, block the common tab function.
-                            return true
-                        else
-                            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
-                        end
-                    end,
-                },
-                ['<S-Tab>'] = {
-                    function(cmp)
-                        if cmp.is_visible() then
-                            return cmp.select_prev()
-                        else
-                            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<S-Tab>", true, false, true),
-                                "n", false)
-                        end
-                    end,
-                },
+                preset = "super-tab",
                 ["<esc>"] = { "hide", 'fallback' },
-                -- ['<C-l>'] = { 'show', 'show_documentation', 'hide_documentation' },
-                -- ['<C-h>'] = { 'show_signature', 'hide_signature', 'fallback' }
+                ['<CR>'] = {'accept', 'fallback'},
                 ["<leader>rg"] = {
                     function()
                         -- invoke manually, requires blink >v0.8.0
@@ -294,7 +270,7 @@ return {
         config = function(_, opts)
             local luasnip = require("luasnip")
             luasnip.setup({
-                region_check_events = "CursorHold,InsertLeave",
+                region_check_events = "CursorHold,InsertLeave,CursorMoved",
                 -- those are for removing deleted snippets, also a common problem
                 delete_check_events = "TextChanged,InsertEnter",
             })
@@ -321,16 +297,6 @@ return {
             luasnip.filetype_extend("kotlin", { "kdoc" })
             luasnip.filetype_extend("ruby", { "rdoc" })
             luasnip.filetype_extend("sh", { "shelldoc" })
-            -- add keymaps
-            vim.cmd([[
-                " press <Tab> to expand or jump in a snippet. These can also be mapped separately
-                " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
-                imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
-                snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
-                " -1 for jumping backwards.
-                inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
-                snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
-            ]])
         end,
     },
 }
