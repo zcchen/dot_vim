@@ -1,6 +1,10 @@
 return {
     {
         "numToStr/Comment.nvim",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "JoosepAlviste/nvim-ts-context-commentstring"
+        },
         opts = {
             ---LHS of toggle mappings in NORMAL mode
             toggler = {
