@@ -12,6 +12,13 @@ return {
             "mikavilpas/blink-ripgrep.nvim",
             "folke/snacks.nvim",
         },
+        --[[
+        build = function()
+            -- build the fuzzy matcher, optionally add a timeout to `pwait(timeout_ms)`
+            -- you can use `gb` in `:Lazy` to rebuild the plugin as needed
+            require('blink.cmp').build():pwait()
+        end,
+        ]]
 
         -- use a release tag to download pre-built binaries
         --version = "*",
@@ -23,14 +30,39 @@ return {
         ---@module 'blink.cmp'
         ---@type blink.cmp.Config
         opts = {
+            fuzzy = {
+                implementation = "lua"
+            },
             -- 'default' for mappings similar to built-in completion
             -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
             -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
             -- See the full "keymap" documentation for information on defining your own keymap.
             keymap = {
-                preset = "super-tab",
-                -- ["<tab>"] = { "show", 'snippet_forward', 'fallback' },
-                -- ["<esc>"] = { "hide", 'fallback' },
+                ['<Tab>'] = {
+                    function(cmp)
+                        if cmp.is_visible() then
+                            return cmp.select_next()
+                        end
+                        cmp.show()
+                        local items = cmp.get_items() or {}
+                        if #items > 0 then -- since items found, block the common tab function.
+                            return true
+                        else
+                            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
+                        end
+                    end,
+                },
+                ['<S-Tab>'] = {
+                    function(cmp)
+                        if cmp.is_visible() then
+                            return cmp.select_prev()
+                        else
+                            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<S-Tab>", true, false, true),
+                                "n", false)
+                        end
+                    end,
+                },
+                ["<esc>"] = { "hide", 'fallback' },
                 -- ['<C-l>'] = { 'show', 'show_documentation', 'hide_documentation' },
                 -- ['<C-h>'] = { 'show_signature', 'hide_signature', 'fallback' }
                 ["<leader>rg"] = {
@@ -68,104 +100,90 @@ return {
                         -- the options below are optional, some default values are shown
                         ---@module "blink-ripgrep"
                         ---@type blink-ripgrep.Options
-                        -- opts = {
-                        --     -- For many options, see `rg --help` for an exact description of
-                        --     -- the values that ripgrep expects.
-                        --
-                        --     -- the minimum length of the current word to start searching
-                        --     -- (if the word is shorter than this, the search will not start)
-                        --     prefix_min_len = 3,
-                        --
-                        --     -- The number of lines to show around each match in the preview
-                        --     -- (documentation) window. For example, 5 means to show 5 lines
-                        --     -- before, then the match, and another 5 lines after the match.
-                        --     context_size = 5,
-                        --
-                        --     -- The maximum file size of a file that ripgrep should include in
-                        --     -- its search. Useful when your project contains large files that
-                        --     -- might cause performance issues.
-                        --     -- Examples:
-                        --     -- "1024" (bytes by default), "200K", "1M", "1G", which will
-                        --     -- exclude files larger than that size.
-                        --     max_filesize = "1M",
-                        --
-                        --     -- Specifies how to find the root of the project where the ripgrep
-                        --     -- search will start from. Accepts the same options as the marker
-                        --     -- given to `:h vim.fs.root()` which offers many possibilities for
-                        --     -- configuration. If none can be found, defaults to Neovim's cwd.
-                        --     --
-                        --     -- Examples:
-                        --     -- - ".git" (default)
-                        --     -- - { ".git", "package.json", ".root" }
-                        --     project_root_marker = { ".git" },
-                        --
-                        --     -- Enable fallback to neovim cwd if project_root_marker is not
-                        --     -- found. Default: `true`, which means to use the cwd.
-                        --     project_root_fallback = true,
-                        --
-                        --     -- The casing to use for the search in a format that ripgrep
-                        --     -- accepts. Defaults to "--ignore-case". See `rg --help` for all the
-                        --     -- available options ripgrep supports, but you can try
-                        --     -- "--case-sensitive" or "--smart-case".
-                        --     search_casing = "--ignore-case",
-                        --
-                        --     -- (advanced) Any additional options you want to give to ripgrep.
-                        --     -- See `rg -h` for a list of all available options. Might be
-                        --     -- helpful in adjusting performance in specific situations.
-                        --     -- If you have an idea for a default, please open an issue!
-                        --     --
-                        --     -- Not everything will work (obviously).
-                        --     additional_rg_options = {},
-                        --
-                        --     -- When a result is found for a file whose filetype does not have a
-                        --     -- treesitter parser installed, fall back to regex based highlighting
-                        --     -- that is bundled in Neovim.
-                        --     fallback_to_regex_highlighting = true,
-                        --
-                        --     -- Absolute root paths where the rg command will not be executed.
-                        --     -- Usually you want to exclude paths using gitignore files or
-                        --     -- ripgrep specific ignore files, but this can be used to only
-                        --     -- ignore the paths in blink-ripgrep.nvim, maintaining the ability
-                        --     -- to use ripgrep for those paths on the command line. If you need
-                        --     -- to find out where the searches are executed, enable `debug` and
-                        --     -- look at `:messages`.
-                        --     ignore_paths = {},
-                        --
-                        --     -- Any additional paths to search in, in addition to the project
-                        --     -- root. This can be useful if you want to include dictionary files
-                        --     -- (/usr/share/dict/words), framework documentation, or any other
-                        --     -- reference material that is not available within the project
-                        --     -- root.
-                        --     additional_paths = {},
-                        --
-                        --     -- Keymaps to toggle features on/off. This can be used to alter
-                        --     -- the behavior of the plugin without restarting Neovim. Nothing
-                        --     -- is enabled by default. Requires folke/snacks.nvim.
-                        --     toggles = {
-                        --         -- The keymap to toggle the plugin on and off from blink
-                        --         -- completion results. Example: "<leader>tg"
-                        --         on_off = nil,
-                        --     },
-                        --
-                        --     -- Features that are not yet stable and might change in the future.
-                        --     -- You can enable these to try them out beforehand, but be aware
-                        --     -- that they might change. Nothing is enabled by default.
-                        --     future_features = {
-                        --         backend = {
-                        --             -- The backend to use for searching. Defaults to "ripgrep".
-                        --             -- Available options:
-                        --             -- - "ripgrep", always use ripgrep
-                        --             -- - "gitgrep", always use git grep
-                        --             -- - "gitgrep-or-ripgrep", use git grep if possible, otherwise
-                        --             --   ripgrep
-                        --             use = "ripgrep",
-                        --         },
-                        --     },
-                        --
-                        --     -- Show debug information in `:messages` that can help in
-                        --     -- diagnosing issues with the plugin.
-                        --     debug = false,
-                        -- },
+                        opts = {
+                            -- For many options, see `rg --help` for an exact description of
+                            -- the values that ripgrep expects.
+                            -- the minimum length of the current word to start searching
+                            -- (if the word is shorter than this, the search will not start)
+                            prefix_min_len = 3,
+                            -- The number of lines to show around each match in the preview
+                            -- (documentation) window. For example, 5 means to show 5 lines
+                            -- before, then the match, and another 5 lines after the match.
+                            context_size = 5,
+                            -- The maximum file size of a file that ripgrep should include in
+                            -- its search. Useful when your project contains large files that
+                            -- might cause performance issues.
+                            -- Examples:
+                            -- "1024" (bytes by default), "200K", "1M", "1G", which will
+                            -- exclude files larger than that size.
+                            max_filesize = "1M",
+                            -- Specifies how to find the root of the project where the ripgrep
+                            -- search will start from. Accepts the same options as the marker
+                            -- given to `:h vim.fs.root()` which offers many possibilities for
+                            -- configuration. If none can be found, defaults to Neovim's cwd.
+                            --
+                            -- Examples:
+                            -- - ".git" (default)
+                            -- - { ".git", "package.json", ".root" }
+                            project_root_marker = { ".git", "package.json", ".root" },
+                            -- Enable fallback to neovim cwd if project_root_marker is not
+                            -- found. Default: `true`, which means to use the cwd.
+                            project_root_fallback = true,
+                            -- The casing to use for the search in a format that ripgrep
+                            -- accepts. Defaults to "--ignore-case". See `rg --help` for all the
+                            -- available options ripgrep supports, but you can try
+                            -- "--case-sensitive" or "--smart-case".
+                            search_casing = "--ignore-case",
+                            -- (advanced) Any additional options you want to give to ripgrep.
+                            -- See `rg -h` for a list of all available options. Might be
+                            -- helpful in adjusting performance in specific situations.
+                            -- If you have an idea for a default, please open an issue!
+                            -- Not everything will work (obviously).
+                            additional_rg_options = {},
+                            -- When a result is found for a file whose filetype does not have a
+                            -- treesitter parser installed, fall back to regex based highlighting
+                            -- that is bundled in Neovim.
+                            fallback_to_regex_highlighting = true,
+                            -- Absolute root paths where the rg command will not be executed.
+                            -- Usually you want to exclude paths using gitignore files or
+                            -- ripgrep specific ignore files, but this can be used to only
+                            -- ignore the paths in blink-ripgrep.nvim, maintaining the ability
+                            -- to use ripgrep for those paths on the command line. If you need
+                            -- to find out where the searches are executed, enable `debug` and
+                            -- look at `:messages`.
+                            ignore_paths = {},
+                            -- Any additional paths to search in, in addition to the project
+                            -- root. This can be useful if you want to include dictionary files
+                            -- (/usr/share/dict/words), framework documentation, or any other
+                            -- reference material that is not available within the project
+                            -- root.
+                            additional_paths = {},
+                            -- Keymaps to toggle features on/off. This can be used to alter
+                            -- the behavior of the plugin without restarting Neovim. Nothing
+                            -- is enabled by default. Requires folke/snacks.nvim.
+                            toggles = {
+                                -- The keymap to toggle the plugin on and off from blink
+                                -- completion results. Example: "<leader>tg"
+                                on_off = nil,
+                            },
+                            -- Features that are not yet stable and might change in the future.
+                            -- You can enable these to try them out beforehand, but be aware
+                            -- that they might change. Nothing is enabled by default.
+                            future_features = {
+                                backend = {
+                                    -- The backend to use for searching. Defaults to "ripgrep".
+                                    -- Available options:
+                                    -- - "ripgrep", always use ripgrep
+                                    -- - "gitgrep", always use git grep
+                                    -- - "gitgrep-or-ripgrep", use git grep if possible, otherwise
+                                    --   ripgrep
+                                    use = "ripgrep",
+                                },
+                            },
+                            -- Show debug information in `:messages` that can help in
+                            -- diagnosing issues with the plugin.
+                            debug = false,
+                        },
                         -- (optional) customize how the results are displayed. Many options
                         -- are available - make sure your lua LSP is set up so you get
                         -- autocompletion help
