@@ -39,8 +39,7 @@ return {
             -- See the full "keymap" documentation for information on defining your own keymap.
             keymap = {
                 preset = "super-tab",
-                ["<esc>"] = { "hide", 'fallback' },
-                ['<CR>'] = {'accept', 'fallback'},
+                -- ['<CR>'] = {'accept', 'fallback'},
                 ["<leader>rg"] = {
                     function()
                         -- invoke manually, requires blink >v0.8.0
