@@ -30,14 +30,18 @@ help:
 uninstall:
 	$(REMOVE_CMD) $(CONFIG_OBJS)
 
+# NOTE: Use proxychains to ensure using the proxy to download packs
 install: $(HOME_OBJS) $(CONFIG_OBJS)
 	nvim +"Lazy install" +qall
+	nvim +"TSInstallSync" +qall
 
 deps:
 	sudo apt install $(DEB_DEPENDS)
 
+# NOTE: Use proxychains to ensure using the proxy to download packs
 update: install
 	nvim +"Lazy update" +qall
+	nvim +"TSUpdateSync" +qall
 
 $(CONFIG_DIR)/%: %
 	$(LINK_CMD) "$(CURDIR)/$<" $@
