@@ -1,5 +1,17 @@
 local lsp_configs = {
-    clangd = {},
+    clangd = {
+        config = {
+            root_dir = function(fname)
+                return require('lspconfig.util').root_pattern(
+                    'Makefile',
+                    'configure.ac',
+                    'compile_commands.json',
+                    '.clangd'
+                )(fname) or vim.fn.expand('%:h')    -- current file's relative paht
+                -- )(fname) or vim.fn.expand('%:p:h')  -- current file's abs path
+            end,
+        }
+    },
     lua_ls = {
         config = {
             settings = {
